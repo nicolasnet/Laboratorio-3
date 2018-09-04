@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- con la sig linea referencia al archivo CSS
+    SELECTORES:
+    div p                           con este busca TODOS los hijos
+    div>p                           solo hijos directos
+    #txtNombre                      solo para ESE ID especificado
+    input["name" = "usuario"]       con este todos aquellos que tengan ESE name
+
+    CLASES:
+
+    .azul               para cualquier tag
+    p.rojo              solo para el tag p
+
+    -->
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+    <form action="http://www.google.com" method="post" target="_blank">
+        <label for="txtUsuario">Usuario:</label>
+        <input type="text" name="usuario" id="txtUsuario" placeholder="Ingrese Usuario" required>
+        <br>
+        <label for="txtContraseña">Contraseña:</label>
+        <input type="password" name="password" id="txtContraseña" placeholder="Ingrese Contraseña" required>
+        <br>
+        <label for="">Preferencias</label>
+        <input type="checkbox" name="" id="tecnologia" value="tecnologia">Tecno
+        <input type="checkbox" name="" id="cine" value="cine">Cine
+        
+        <br><br>
+
+        <fieldset>
+            <legend>
+                Datos Usuario
+            </legend>
+                    
+                    <label for="">Sexo:</label>
+                    <input type="radio" name="sexo" id="">Mujer
+                    <input type="radio" name="sexo" id="">Otro
+            
+                    <br>
+                    <label for="tipoDOC">Tipo:</label>
+                    <select name="tipoDOC" id="tipoDOC"   > <!-- se puede agregar Size (para mostrar mas de uno) y Multiple (para elegir varios) --> 
+                        <option value="dni">DNI</option>
+                        <option value="pasaporte" selected>Pasaposte</option>
+                        <option value="cedula">Cedula</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                    <br>
+
+            
+        </fieldset>
+
+
+        <br>
+        <input type="submit" value="Enviar Form">
+        <input type="reset" value="Resetear">
+
+
+    </form>
+
+    
+</body>
+</html>
