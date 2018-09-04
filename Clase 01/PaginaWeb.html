@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Nueva Pagina</title>
+    <script>
+    function mostrar(){
+        var usuario = document.getElementById("usr").value;
+        var password = document.getElementById("psw").value;
+        alert(usuario+" "+password);
+    }
+    </script>
+</head>
+<body>
+    
+    <form>
+        <fieldset> 
+        <label>Usuario</label><br>
+        <input type="text" name="txtUsuario" size="20" maxlength="7" id="usr"/><br>
+        <label>Contraseña</label><br>
+        <input type="password" id="psw"/><br>
+        <input type="checkbox" checked/><label>Recordar Usuario</label><br>
+        <!-- <input type="radio"/><br>    "ctrl" + "k" + "c"   para señalarlo como comentario!!!! -->
+        <input type="button" value="Enviar Datos" onclick="mostrar()"/>
+        <input type="reset" value="Borrar datos"/><br><br>
+        <input type="image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3thhPEvt84Cpn1eGtXz83z51LW846bYY7chNQX53vGZx7rp4S"/>
+        
+        <select name=“cboLista” id=“cboLista” >
+                <optgroup label=“Grupo 1”>
+                    <option value=“1”> Opción 1 </option>
+                    <option value=“2”> Opción 2 </option>
+                </optgroup>
+                <optgroup label=“Grupo2”>
+                    <option value=“3”> Opción 3 </option>
+                    <option value=“4”> Opción 4 </option>
+                </optgroup>	
+            </select>
+        </fieldset>
+            
+		
+	</form>
+</body>
+</html>
