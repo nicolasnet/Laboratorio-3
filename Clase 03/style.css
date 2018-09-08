@@ -1,0 +1,36 @@
+.numero{
+    margin: 10px 8px 10px 8px;
+    padding: 10px 8px 10px align-self;
+    color: blue;   
+    
+}
+
+.sindato{
+    margin: 10px 8px 10px 8px;
+    padding: 10px 8px 10px align-self;
+    color: blue;   
+    border-color:red;
+
+}
+
+.button{
+    background-color: darkred;
+    color: white;
+    border: none;
+    font-weight: bold;
+    border-radius: 10px;
+    
+}
+
+fieldset{
+    background-color: grey;
+    margin: auto;
+    width: 70%;
+}
+
+th{
+    background-color: greenyellow;
+}
+head{
+
+}

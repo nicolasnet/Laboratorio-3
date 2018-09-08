@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <!-- <meta http-equiv="X-UA-Compatible" content="ie=edge"> -->
+    <title>Calculadora</title>
+    <script src="./funciones.js"></script>
+    <!--
+
+        type="textjavascript" 
+
+
+    con la sig linea referencia al archivo CSS
+    SELECTORES:
+    div p                           con este busca TODOS los hijos
+    div>p                           solo hijos directos
+    #txtNombre                      solo para ESE ID especificado
+    input["name" = "usuario"]       con este todos aquellos que tengan ESE name
+
+    CLASES:
+
+    .azul               para cualquier tag
+    p.rojo              solo para el tag p
+
+    -->
+    
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <h1>
+        Calculadora
+    </h1>
+        
+        
+    <br><br>
+
+    <fieldset>
+        <legend>
+            Sumar Numeros
+        </legend>
+                <p id="pDescripcion">Se deben ingresar dos numeros y hacer click en el boton sumar</p>
+                <input type="number" name="" id="num1" class="numero">
+                <label >+</label>
+                <input type="number" name="" id="num2" class="numero">
+
+                <input type="button" value="Sumar" onclick="sumar()" class="button">
+                <input type="button" value="SumarGuardar" onclick="sumarGuardar()"class="button" >
+                <br>
+                <label for="tipoDOC">Resultado:</label>
+                <input type="text" name="" id="resultado" class="numero">
+
+                
+                <br>
+                <!-- INTENTAR AGREGAR UN BOTON EN LA TABLA EN LA QUE MUESTRE EL DATO DE LA TABLA EN LOS IMPUTS DE ARRIBA -->
+        
+    
+
+
+        <br>
+        
+    </fieldset>
+    <table id="tabla" border="1">
+        <thead>
+            <tr>
+                <th>
+                    Numero 1
+                </th>
+                <th>
+                    Numero 2
+                </th>
+                <th>
+                    Resultado
+                </th>
+            </tr>
+
+        </thead>
+        <tbody id="tbody">
+
+        </tbody>
+    </table>
+    
+</body>
+</html>
