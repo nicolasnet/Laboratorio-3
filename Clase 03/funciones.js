@@ -46,7 +46,16 @@ function sumarGuardar(){
 
     var tabla = $("tbody");
 
-    tabla.innerHTML+= "<tr><td>"+num1.value+"</td>"+"<td>"+num2.value+"</td>"+"<td>"+resultado.value+"</td></tr>"
+    tabla.innerHTML+= "<tr><td>"+num1.value+"</td>"+"<td>"+num2.value+"</td>"+"<td>"+resultado.value+"</td>"+"<td><input type='button' value='Mostrar' onclick='mostrar(num1.value,num2.value,resultado.value)' class='button'></td></tr>";
     
+}
 
+function mostrar(valor1, valor2, valorresultado){
+    num1 = $("num1");
+    num2 = $("num2");
+    resultado = $("resultado");
+
+    num1.value = valor2;
+    num2.value = valor2;
+    resultado.value = valorresultado;
 }
