@@ -1,3 +1,18 @@
+html{
+    background-image: url("./imagenWindows.png");
+}
+
+h1{
+    color: whitesmoke;
+    margin: auto;
+    width: 30%;
+}
+
+.contenedor{
+    margin : auto;
+    background-color: antiquewhite;
+}
+
 .numero{
     margin: 10px 8px 10px 8px;
     padding: 10px 8px 10px align-self;
@@ -21,16 +36,32 @@
     border-radius: 10px;
     
 }
+.botonAparecer{
+    position: absolute;
+    margin: auto;
+    right: 0;
+    background-color: aquamarine;
+    width: 10%;
+}
 
-fieldset{
+.fieldsetVisible{
     background-color: grey;
     margin: auto;
-    width: 70%;
+    height: 400px;
+    position: relative;  
+    bottom: -100px;  
+    
+}
+
+.fieldsetNOVisible{
+    background-color: grey;
+    margin: auto;
+    visibility: hidden;
+    position: relative;  
+    bottom: -20px;  
+    
 }
 
 th{
     background-color: greenyellow;
-}
-head{
-
 }

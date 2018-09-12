@@ -31,14 +31,21 @@
     <h1>
         Calculadora
     </h1>
-        
+    <br><br>
+    <div class="">
+        <input type="button" value="Visible" class="botonAparecer" onclick="Visible()">
+        <br><br>
+        <input type="button" value="No Visible" class="botonAparecer" onclick="NoVisible()">
+
+    </div>    
         
     <br><br>
 
-    <fieldset>
+    <fieldset id="inputs" class="fieldsetVisible">
         <legend>
             Sumar Numeros
         </legend>
+            <div class="contenedor">
                 <p id="pDescripcion">Se deben ingresar dos numeros y hacer click en el boton sumar</p>
                 <input type="number" name="" id="num1" class="numero">
                 <label >+</label>
@@ -54,7 +61,7 @@
                 <br>
                 <!-- INTENTAR AGREGAR UN BOTON EN LA TABLA EN LA QUE MUESTRE EL DATO DE LA TABLA EN LOS IMPUTS DE ARRIBA -->
         
-    
+            </div>
 
 
         <br>
