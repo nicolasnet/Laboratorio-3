@@ -11,6 +11,8 @@ h1{
 .contenedor{
     margin : auto;
     background-color: antiquewhite;
+    border-radius: 10px;
+    padding: 10px;
 }
 
 .numero{
@@ -46,22 +48,38 @@ h1{
 
 .fieldsetVisible{
     background-color: grey;
-    margin: auto;
-    height: 400px;
-    position: relative;  
-    bottom: -100px;  
-    
+    /* margin: auto; */
+    width: 50%;
+    position: fixed;  
+    bottom: 25%;
+    right: 25%;  
+    animation-name: aparecer;
+    animation-duration: 3s;
+    padding: 10px;
+    border-radius: 4px;
 }
 
-.fieldsetNOVisible{
-    background-color: grey;
-    margin: auto;
+@keyframes aparecer{
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+.fieldsetNOVisible{    
     visibility: hidden;
-    position: relative;  
-    bottom: -20px;  
-    
 }
 
 th{
     background-color: greenyellow;
+}
+
+td{
+    color: whitesmoke;
+}
+
+table{
+    width: 100%;
+}
+
+a{
+    color: lightskyblue;
 }

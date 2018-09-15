@@ -27,21 +27,26 @@
     
     <link rel="stylesheet" href="./style.css">
 </head>
+
+
 <body>
     <h1>
         Calculadora
     </h1>
     <br><br>
     <div class="">
-        <input type="button" value="Visible" class="botonAparecer" onclick="Visible()">
+        <input id="btnVisible" type="button" value="Visible" class="botonAparecer">
         <br><br>
-        <input type="button" value="No Visible" class="botonAparecer" onclick="NoVisible()">
+        <input id="btnNoVisible" type="button" value="No Visible" class="botonAparecer">
+        <br><br>
+        <input id="btnBorraHistorial" type="button" value="Borrar Historial" class="botonAparecer">
+        
 
     </div>    
         
     <br><br>
 
-    <fieldset id="inputs" class="fieldsetVisible">
+    <div id="inputs" class="fieldsetVisible">
         <legend>
             Sumar Numeros
         </legend>
@@ -51,8 +56,8 @@
                 <label >+</label>
                 <input type="number" name="" id="num2" class="numero">
 
-                <input type="button" value="Sumar" onclick="sumar()" class="button">
-                <input type="button" value="SumarGuardar" onclick="sumarGuardar()"class="button" >
+                <input type="button" id="btnSumar" value="Sumar" class="button">
+                <input type="button" id="btnSumarGuardar" value="SumarGuardar" class="button" >
                 <br>
                 <label for="tipoDOC">Resultado:</label>
                 <input type="text" name="" id="resultado" class="numero">
@@ -66,26 +71,34 @@
 
         <br>
         
-    </fieldset>
-    <table id="tabla" border="1">
-        <thead>
-            <tr>
-                <th>
-                    Numero 1
-                </th>
-                <th>
-                    Numero 2
-                </th>
-                <th>
-                    Resultado
-                </th>
-            </tr>
+        </div>
+    <div class="divTabla">
+        <table id="tabla" border="1">
+            <thead>
+                <tr>
+                    <th>
+                        Numero 1
+                    </th>
+                    <th>
+                        Numero 2
+                    </th>
+                    <th>
+                        Resultado
+                    </th>
+                    <th>
+                        Boton
+                    </th>
+                    <th>
+                        Accion
+                    </th>
+                </tr>
 
-        </thead>
-        <tbody id="tbody">
+            </thead>
+            <tbody id="tbody">
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
     
 </body>
 </html>
