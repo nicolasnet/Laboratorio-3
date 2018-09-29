@@ -1,0 +1,100 @@
+<!-- DESCARGAR EN MI PC NODE JS, PARA USAR LOS SERVIDORES PASADOS POR EL PROFESOR -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+   
+    <title>AJAX</title>
+    <script>
+    
+    window.onload = function(){
+        var boton = document.getElementById("btn");
+        boton.addEventListener("click", ejecutar);
+    }
+
+    var xmlHttp = new XMLHttpRequest();
+
+        function obtenerParametros(){
+            var usr = document.getElementById("usr").value;
+            var pass = document.getElementById("pass").value;
+            if(usr== ""){
+                return "";
+            }else{
+            
+            return "usr="+usr+"&pass="+pass;
+            }
+        }
+
+
+
+        function callbackFuncion(){
+            console.log(xmlHttp.readyState);
+                //VALORES DEL READYSTATE:
+                //1 existe la ruta
+                //2 recibida la peticion al servidor
+                //3 el servidor ya tiene la info disponible
+                //4 se proceso todo y tenemos respuesta del servidor
+                
+                if(xmlHttp.readyState == 4){
+                    if(xmlHttp.status == 200 || xmlHttp.status == 210){ //por default el 200 significa sin errores
+                        alert(xmlHttp.responseText);
+                    }else{
+                        alert("error "+xmlHttp.status);
+                    }
+                }
+        }
+
+        function ejecutar(){
+            ejecutaPOST('http://localhost:3000/loginUsuario', callbackFuncion, obtenerParametros());
+        }
+
+
+        function ejecutaGET(url, callback, parametro){
+            console.log(parametro);            
+        
+            //que hacer cuando el servidor tiene lista la info pedida
+            xmlHttp.onreadystatechange = callback;           
+
+            xmlHttp.open("GET",url+"?"+parametro, true) //estando en TRUE no bloquea el navegador ejecuta en segundo plano
+            xmlHttp.send(null);//envia un parametro al servidor
+        }
+
+
+        function ejecutaPOST(url, callback, parametro){
+            console.log(parametro);            
+        
+            //que hacer cuando el servidor tiene lista la info pedida
+            xmlHttp.onreadystatechange = callback;           
+           
+            xmlHttp.open("POST",url, true) //estando en TRUE no bloquea el navegador ejecuta en segundo plano
+            xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); //maneja parametros igual q GET
+            //xmlHttp.setRequestHeader("Content-Type", "application/json"); //este si va con JSON
+            xmlHttp.send(parametro);//envia un parametro al servidor
+        }
+
+    </script>
+       
+</head>
+
+
+<body>
+    <form>
+        <fieldset> 
+        <label>Usuario</label><br>
+        <input type="text" name="usr" id="usr"/><br>
+        <label>Contraseña</label><br>
+        <input type="password" name="pass" id="pass"/><br><br>
+        
+        <input id="btn" type="button" value="Enviar Datos"/>
+        <!-- <button> btn</button>    si uso este tipo de boton tengo q cambiar el event default xq sino me refresca la pagina -->
+        
+        </fieldset>
+            
+		
+	</form>
+
+
+    
+</body>
+</html>

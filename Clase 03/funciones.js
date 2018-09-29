@@ -1,3 +1,9 @@
+//tema de CALLBACK
+sumarNuevo(9,2,function(resultado){
+    console.log(resultado);
+});
+
+
 var listaCuentas;
 
 //Con este metodo, cuando se termina de carga la pagina, le pasas un onclick a un boton, ES LO MAS PROLIJO
@@ -100,10 +106,20 @@ function sumarGuardar(){
 
 
 
+function cargarDatosIniciales(){
+
+
+
+}
+
+
+
+
 function muestraEnTabla(){
+    borraHistorial();
     for (var i = 0; i < listaCuentas.length; i++) {
         var cuenta = listaCuentas[i];
-        tabla.innerHTML+= "<tr><td>"+cuenta.num1+"</td>"+"<td>"+cuenta.num2+"</td>"+"<td>"+cuenta.resultado+"</td>"+"<td><input type='button' value='Mostrar' onclick='mostrar(num1.value, num2.value, resultado.value)' class='button'></td><td><a href='' onclick='tagA(event)' >Borrar</a></td></tr>";    
+        tabla.innerHTML+= "<tr><td>"+cuenta.num1+"</td>"+"<td>"+cuenta.num2+"</td>"+"<td>"+cuenta.resultado+"</td>"+"<td><input type='button' value='Mostrar' onclick='mostrar(num1.value, num2.value, resultado.value)' class='button'></td><td><a href='' onclick='tagA(event,"+i+")' >Borrar</a></td></tr>";    
         
     }
 }
@@ -111,10 +127,12 @@ function muestraEnTabla(){
 
 
 
-function tagA(event){
+function tagA(event, index){
     event.preventDefault();
     if(confirm("Seguro que desea eliminar?")){
-        alert("Ole, no se borro :P");
+        //alert("Ole, no se borro :P");
+        listaCuentas.splice(index,1);
+        muestraEnTabla();
     }
 
 }
@@ -150,4 +168,20 @@ function Visible(){
 function NoVisible(){
     var fieldset = $("inputs");
     fieldset.className = "fieldsetNOVisible";
+}
+
+
+
+
+
+
+
+
+
+
+
+//CALBACK TEMA NUEVO
+function sumarNuevo(a, b, callback){
+    var c = a+b;
+    callback (c);
 }
