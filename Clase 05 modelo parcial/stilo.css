@@ -1,0 +1,13 @@
+.noticia{
+    background-color: lightgrey;
+}
+
+
+
+.btnChico{
+    color: white;
+    border: none;
+    font-weight: bold;
+    border-radius: 10px;
+    float: right;
+}

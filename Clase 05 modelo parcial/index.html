@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="./java.js"></script>
+    <link rel="stylesheet" href="./stilo.css">
+    <title>Document</title>
+</head>
+<body>
+    <input type="button" value="Agregar" id="btnAgregar" class="btn">
+    <div id="titulo">
+        <br>
+        <h2>Ultimas Noticias:</h2> 
+        <br>
+    </div>
+    <div id="texto">
+        <div></div>
+
+    </div>
+
+    <div id="loading" hidden>
+        <img src="./please-wait.gif" alt="">
+    </div>
+
+
+    <div class="divAgregar" id="divAgregar" hidden>
+        <input type="button" value="X" id="btnCerrar">
+        <br>
+        <br>
+        <label>Titulo</label>
+        <br>
+        <input type="text" id="txtTitulo" name="Titulo" class="titulo" placeholder="Titulo">
+        <br>
+        <label>Tema</label>
+        <br>
+        <select name="cboLista" id="cboLista" >                
+            <option value=“Deportes”> Deportes </option>
+            <option value=“Economia”> Economia </option>
+            <option value=“Politica”> Politica </option>
+            <option value=“Seguridad”> Seguridad </option>
+        </select>
+        <br>
+        <label>Descripcion </label>
+        <br>
+        <textarea name="" id="txtDescripcion" cols="30" rows="10" placeholder="Descripcion de la noticia"></textarea>
+        <br>
+        <input type="button" value="Guardar" id="btnGuardar">
+    </div>
+
+
+</body>
+</html>
