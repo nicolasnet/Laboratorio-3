@@ -1,13 +1,104 @@
-.noticia{
-    background-color: lightgrey;
+html{
+    background-color: rgb(41, 41, 41);
+}
+
+h2{
+    color: white;
 }
 
 
+p{
+    color: rgb(87, 87, 87);
+}
+
+
+textarea{
+    resize: none;
+    width: 98%;
+}
+
+
+
+
+.noticia{
+    background-color: rgb(250, 146, 98);
+    padding-left: 1%;    
+    border-radius: 3px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+
+.loading{
+    position: absolute;
+    left: 37.5%;
+    top: 25%;
+}
+
+
+.bienvenidos{
+    color: snow;
+}
+
+
+.divAgregar{
+    background-color:darkred;
+    animation-name: aparecer;
+    animation-duration: 3s;
+    position: absolute;
+    width: 25%;
+    font-weight: bold;
+    top: 25%;
+    right: 36.5%;
+    padding: 1%;
+    border-radius: 5px;
+}
+
+
+@keyframes aparecer{
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+
+.txtTitulo{       
+    width: 98%;
+}
+
+
+
+.fecha{
+    float: right;
+    color: snow;
+    font-size: 80%;
+}
+
+
+
+/* BOTONES */
 
 .btnChico{
     color: white;
     border: none;
     font-weight: bold;
     border-radius: 10px;
+    margin: 0.4%;
     float: right;
+    
+}
+
+.btnChico.borrar{
+    background-color: darkred;
+}
+
+
+.btnChico.editar{
+    background-color: darkcyan;
+}
+
+
+.btnChico.agregar{
+    background-color: darkorange;
+    float: left;
+    color: black;
+    
 }

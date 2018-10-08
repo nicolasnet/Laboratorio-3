@@ -6,47 +6,65 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="./java.js"></script>
     <link rel="stylesheet" href="./stilo.css">
-    <title>Document</title>
+    <title>Pochines News</title>
 </head>
 <body>
-    <input type="button" value="Agregar" id="btnAgregar" class="btn">
-    <div id="titulo">
+    
+    
+    <div id="titulo" class="titulo">
+        <input type="button" value="Agregar" id="btnAgregar" class="btnChico agregar">
         <br>
-        <h2>Ultimas Noticias:</h2> 
-        <br>
-    </div>
-    <div id="texto">
-        <div></div>
 
+        <div id="bienvenidos" class="bienvenidos">
+            <h4 id="h4Bienvenido">    Bienvenidos a este portal de noticias. 
+                    <br>
+                    Hacer click en "agregar" para poder poner tus propias noticias en esta pagina.
+            </h4>
+        </div>
+    </div>    
+
+
+    <br>
+    <h2>Ultimas Noticias:</h2> 
+    <br>
+    
+
+    <div id="texto" class="listaNoticias">
+        
     </div>
 
-    <div id="loading" hidden>
-        <img src="./please-wait.gif" alt="">
+
+    <div id="loading" class="loading" hidden>
+
+        <img src="./loadindred.gif" class="gift">
+       
     </div>
 
 
     <div class="divAgregar" id="divAgregar" hidden>
-        <input type="button" value="X" id="btnCerrar">
+        <input type="button" value="X" id="btnCerrar" class="btnChico agregar">
         <br>
         <br>
         <label>Titulo</label>
         <br>
-        <input type="text" id="txtTitulo" name="Titulo" class="titulo" placeholder="Titulo">
+        <input type="text" id="txtTitulo" name="txtTitulo" class="txtTitulo" placeholder="Titulo">
         <br>
         <label>Tema</label>
         <br>
-        <select name="cboLista" id="cboLista" >                
-            <option value=“Deportes”> Deportes </option>
-            <option value=“Economia”> Economia </option>
-            <option value=“Politica”> Politica </option>
-            <option value=“Seguridad”> Seguridad </option>
+        <select name="cboLista" id="cboLista" >
+            <optgroup label="Temas:"> 
+            <option value="Deporte" selected> Deporte </option>
+            <option value="Economia"> Economia </option>
+            <option value="Politica"> Politica </option>
+            <option value="Seguridad"> Seguridad </option>
+            </optgroup>
         </select>
         <br>
         <label>Descripcion </label>
         <br>
-        <textarea name="" id="txtDescripcion" cols="30" rows="10" placeholder="Descripcion de la noticia"></textarea>
+        <textarea name="" id="txtDescripcion" cols="30" rows="10" placeholder="Descripcion de la noticia" sentences></textarea>
         <br>
-        <input type="button" value="Guardar" id="btnGuardar">
+        <input type="button" value="Guardar" id="btnGuardar" class="btnChico agregar">
     </div>
 
 
