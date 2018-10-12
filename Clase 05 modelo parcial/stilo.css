@@ -2,10 +2,6 @@ html{
     background-color: rgb(41, 41, 41);
 }
 
-h2{
-    color: white;
-}
-
 
 p{
     color: rgb(87, 87, 87);
@@ -13,16 +9,33 @@ p{
 
 
 textarea{
-    resize: none;
+    resize: none; /*Para que el usuario no pueda redimencionarlo */
     width: 98%;
 }
 
+label{
+    color: snow;
+}
 
+
+text{
+    stroke:rgb(255, 255, 255);
+    stroke-width:.8;
+    fill:none;
+    font-family: Consolas;
+    font-size: 150%;
+}
+
+/* Clases*/
+
+.sindato{       
+    border-color:red;
+}
 
 
 .noticia{
     background-color: rgb(250, 146, 98);
-    padding-left: 1%;    
+    padding-left: 1%; /* padding es el margen interno del div*/
     border-radius: 3px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
@@ -41,14 +54,14 @@ textarea{
 
 
 .divAgregar{
-    background-color:darkred;
+    background-color:black;
     animation-name: aparecer;
     animation-duration: 3s;
     position: absolute;
     width: 25%;
-    font-weight: bold;
-    top: 25%;
-    right: 36.5%;
+    font-weight: bold;/*poner en negrita*/
+    top: 25%;/*posicion del div absolute*/
+    right: 36.5%; /*posicion del div absolute*/
     padding: 1%;
     border-radius: 5px;
 }
@@ -67,7 +80,7 @@ textarea{
 
 
 .fecha{
-    float: right;
+    float: right; /* queda flotando a un lado, y el resto de elementos puede posicionarse a su alrededor en su misma linea*/
     color: snow;
     font-size: 80%;
 }

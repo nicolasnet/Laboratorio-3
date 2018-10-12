@@ -8,6 +8,10 @@ h1{
     width: 30%;
 }
 
+text{
+    color: snow;
+}
+
 .contenedor{
     margin : auto;
     background-color: antiquewhite;
@@ -22,12 +26,8 @@ h1{
     
 }
 
-.sindato{
-    margin: 10px 8px 10px 8px;
-    padding: 10px 8px 10px align-self;
-    color: blue;   
+.sindato{       
     border-color:red;
-
 }
 
 .button{

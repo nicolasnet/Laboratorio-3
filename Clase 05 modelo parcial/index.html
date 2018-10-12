@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="./java.js"></script>
     <link rel="stylesheet" href="./stilo.css">
-    <title>Pochines News</title>
+    <title>Gomez News</title>
 </head>
 <body>
     
@@ -18,14 +18,16 @@
         <div id="bienvenidos" class="bienvenidos">
             <h4 id="h4Bienvenido">    Bienvenidos a este portal de noticias. 
                     <br>
-                    Hacer click en "agregar" para poder poner tus propias noticias en esta pagina.
+                    Hacer click en "agregar" para poder ingresar tus propias noticias en esta pagina.
             </h4>
         </div>
-    </div>    
+    </div>
 
 
-    <br>
-    <h2>Ultimas Noticias:</h2> 
+    <svg width="250" height="60" viewBox="0 0 250 60">
+        <text x="10" y="40">Ultimas Noticias: </text>
+    </svg>
+    
     <br>
     
 
@@ -40,14 +42,14 @@
        
     </div>
 
-
+    <form>
     <div class="divAgregar" id="divAgregar" hidden>
         <input type="button" value="X" id="btnCerrar" class="btnChico agregar">
         <br>
         <br>
         <label>Titulo</label>
         <br>
-        <input type="text" id="txtTitulo" name="txtTitulo" class="txtTitulo" placeholder="Titulo">
+        <input type="text" id="txtTitulo" name="txtTitulo" class="txtTitulo" placeholder="Titulo" autofocus> 
         <br>
         <label>Tema</label>
         <br>
@@ -60,13 +62,23 @@
             </optgroup>
         </select>
         <br>
+
+        <!-- el checkbox y el radio no estan tenidos en cuenta en la logica de Java ni en el servidor, solo agregados para tener ejemplos de este tipo -->
+        <input type="checkbox" name="recordar" id="checkRecordar" checked><label>Recordar Usuario</label>
+        <br>
+        <input type="radio" name="radioOption" id="radioOption" value="Mujer" checked><label>Mujer</label>
+        <input type="radio" name="radioOption" id="radioOption" value="Hombre"><label>Hombre</label>
+
+
+        <br>
         <label>Descripcion </label>
         <br>
-        <textarea name="" id="txtDescripcion" cols="30" rows="10" placeholder="Descripcion de la noticia" sentences></textarea>
+        <textarea name="" id="txtDescripcion" cols="30" rows="10" placeholder="Descripcion de la noticia" ></textarea>
         <br>
         <input type="button" value="Guardar" id="btnGuardar" class="btnChico agregar">
+        <input type="reset" value="Borrar Datos" class="btnChico borrar"><!-- el RESET solo es para reiniciar valores en un FORM -->
     </div>
-
+    </form>
 
 </body>
 </html>

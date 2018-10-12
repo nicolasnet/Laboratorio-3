@@ -29,7 +29,7 @@ window.onload= function(){
      listaCuentas = [cuenta1, {"num1": "10", "num2": "7", "resultado": "17"}]
      listaCuentas.push({"num1": "1", "num2": "3", "resultado": "4"}); //agrega un json
      //listaCuentas.splice(0,1); //borra desde el 0 hasta 1 posicion, osea con esto borra el 1er objeto del array
-     
+    borraHistorial();
     muestraEnTabla();
 
 }
@@ -47,13 +47,13 @@ function sumar(){
         var resultado = document.getElementById("resultado");
 
         if(num1.value == ""){
-            num1.className = "sindato";
+            num1.className += " sindato";
             alert("Ingresar el 1er numero");
             return;                        
         }
 
         if(num2.value == ""){
-            num2.className = "sindato";
+            num2.className += " sindato";
             alert("Ingresar el 2do numero");                   
             return;
         }
