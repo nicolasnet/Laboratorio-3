@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <script src="./js/java.js"></script>
+        <link rel="stylesheet" href="./css/style.css">
+    <title>Lista Personas</title>
+</head>
+<body>
+    <svg width="250" height="60" viewBox="0 0 250 60">
+            <text x="10" y="40">Lista de Personas: </text>
+    </svg>
+
+    <div class="divTabla">
+            <table id="tabla" border="1">
+                <thead>
+                    <tr>
+                        <th>
+                            Nombre
+                        </th>
+                        <th>
+                            Apellido
+                        </th>
+                        <th>
+                            Fecha
+                        </th>
+                        <th>
+                            Sexo
+                        </th>
+                    </tr>
+    
+                </thead>
+                <tbody id="tbody">
+    
+                </tbody>
+            </table>
+        </div>
+
+        <div id="loading" class="loading" hidden>
+                
+        <img src="./img/loading.gif" class="gift">
+                       
+        </div>
+
+        <div class="divAgregar" id="divAgregar" hidden>
+                <input type="button" value="X" id="btnCerrar" class="btnChico agregar">
+                <br>
+                <br>
+                <label>Nombre</label>
+                <br>
+                <input type="text" id="txtNombre" name="txtNombre" class="txtNombre"> 
+                <br>
+                <label>Apellido</label>
+                <br>
+                <input type="text" id="txtApellido" name="txtApellido" class="txtApellido"> 
+                <br>
+                <label>Fecha nacimiento</label>
+                <br>
+                <input type="date" name="fecha" id="fecha">
+                <br>
+                <label>Sexo</label>
+                <br>     
+                <input type="radio" name="radioOption" id="radioOptionF" value="Female" checked><label>Femenino</label>
+                <br>
+                <input type="radio" name="radioOption" id="radioOptionM" value="Male"><label>Masculino</label>            
+                <br><br>
+                <input type="button" value="Eliminar" id="btnEliminar" class="btnChico eliminar">
+                <input type="button" value="Modificar" id="btnModificar" class="btnChico modificar">
+
+        </div>
+
+    
+</body>
+</html>
