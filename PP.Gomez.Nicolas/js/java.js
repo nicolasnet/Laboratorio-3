@@ -1,6 +1,11 @@
+import java.text.DateFormat;
+import java.util.Date;
+
 var xml = new XMLHttpRequest();
 var arrayJson = new Array();
-
+var idJson;
+var fechaActual = new Date();
+DateFormat Formato = new SimpleDateFormat("yyyy/mm/dd");
 
 window.onload = function(){
     xml.onreadystatechange = callbackGet;
@@ -9,6 +14,13 @@ window.onload = function(){
 
     var btn = $("btnCerrar");
     btn.addEventListener("click", cerrarDivAgregar);
+
+    var btn = $("btnEliminar");
+    btn.addEventListener("click", eliminar);
+
+    var btn = $("btnModificar");
+    btn.addEventListener("click", modificar);
+
 }
 
 
@@ -45,7 +57,7 @@ function ocultarElemento(id){
 function callbackGet(){
     if(xml.readyState == 4){
         if(xml.status == 200 || xml.status == 210){
-            console.log(xml.responseText);
+            //console.log(xml.responseText);
             arrayJson = JSON.parse(xml.responseText);
             
             completaTexto();
@@ -62,7 +74,7 @@ function callbackEliminar(){
     if(xml.readyState == 4){
         if(xml.status == 200 || xml.status == 210){ //por default el 200 significa sin errores            
             ocultarElemento("loading");
-            console.log(xml.responseText)
+            //console.log(xml.responseText)
             
             //llamo nuevamente al GET para recargar el arrayJson con la data del servidor actualizada
             xml.onreadystatechange = callbackGet;
@@ -81,9 +93,9 @@ function callbackModificar(){
     if(xml.readyState == 4){
         if(xml.status == 200 || xml.status == 210){ //por default el 200 significa sin errores            
             ocultarElemento("loading");
-            console.log(xml.responseText);
+            //console.log(xml.responseText);
             var json = JSON.parse(xml.responseText);
-            console.log(json);
+            //console.log(json);
             for(var i=0; i<arrayJson.length; i++){
                 if(arrayJson[i].id == json  .id){
                     arrayJson[i] = json;
@@ -132,36 +144,27 @@ function abrir(e){
 
     mostarElemento("divAgregar");
 
-    id = e.target.parentNode.getAttribute("name");
-    llenarDatos(id);
-   
-    
-    var btn = $("btnEliminar");
-    btn.addEventListener("click", function(){ eliminar(id)});
-    var btn = $("btnModificar");
-    btn.addEventListener("click", function(){ modificar(id)});
+    idJson = e.target.parentNode.getAttribute("name");
+    llenarDatos(idJson);   
 }
 
 
 
-function eliminar(id){
-    if(confirm("¿Seguro que desea eliminar esta persona?")){
-
-        var btn = $("btnEliminar");
-        btn.removeEventListener("click", function(){ eliminar(id)});
+function eliminar(){        
+    if(confirm("¿Seguro que desea eliminar esta persona?")){        
                     
-        var json = {"id": parseInt(id)};
+        var json = {"id": parseInt(idJson)};
 
         xml.onreadystatechange = callbackEliminar;
         xml.open("POST", "http://localhost:3000/eliminar",true);
         xml.setRequestHeader("Content-Type", "application/json");
-        xml.send(JSON.stringify(json));    
+        xml.send(JSON.stringify(json));
     }
         
 }
 
 
-function modificar(id){
+function modificar(){
     var sexo;
     var nombre = $Value("txtNombre");
     var apellido = $Value("txtApellido");
@@ -172,9 +175,12 @@ function modificar(id){
     }else{
         sexo="Male";
     }
+    
+    console.log(fechaActual);
+    console.log(fecha);
 
-    if(nombre.length >=4 && apellido.length>=4){
-        var json = {"id":id, "nombre":nombre, "apellido":apellido, "fecha": fecha, "sexo": sexo};
+    if(nombre.length >=4 && apellido.length>=4 && fecha > fechaActual){
+        var json = {"id":idJson, "nombre":nombre, "apellido":apellido, "fecha": fecha, "sexo": sexo};
     
         xml.onreadystatechange = callbackModificar;
         xml.open("POST", "http://localhost:3000/editar",true);
@@ -191,7 +197,11 @@ function modificar(id){
         if(apellido.length <4){
             alert("Apellido debe tener al menos 4 caracteres");
             $("txtApellido").className = "sindato";
-        }        
+        }      
+        if(fecha < fechaActual){
+            alert("Fecha debe ser a la fecha de hoy");
+            $("fecha").className = "sindato";
+        }
     }
 }
 
