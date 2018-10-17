@@ -1,11 +1,15 @@
+/*
 import java.text.DateFormat;
 import java.util.Date;
+*/
 
 var xml = new XMLHttpRequest();
 var arrayJson = new Array();
 var idJson;
 var fechaActual = new Date();
-DateFormat Formato = new SimpleDateFormat("yyyy/mm/dd");
+//DateFormat Formato = new SimpleDateFormat("yyyy/mm/dd");
+
+
 
 window.onload = function(){
     xml.onreadystatechange = callbackGet;
@@ -58,8 +62,7 @@ function callbackGet(){
     if(xml.readyState == 4){
         if(xml.status == 200 || xml.status == 210){
             //console.log(xml.responseText);
-            arrayJson = JSON.parse(xml.responseText);
-            
+            arrayJson = JSON.parse(xml.responseText);            
             completaTexto();
         }else{
             alert("error "+xml.status);
@@ -74,8 +77,7 @@ function callbackEliminar(){
     if(xml.readyState == 4){
         if(xml.status == 200 || xml.status == 210){ //por default el 200 significa sin errores            
             ocultarElemento("loading");
-            //console.log(xml.responseText)
-            
+            //console.log(xml.responseText)            
             //llamo nuevamente al GET para recargar el arrayJson con la data del servidor actualizada
             xml.onreadystatechange = callbackGet;
             xml.open("GET", "http://localhost:3000/personas",true);
@@ -139,8 +141,10 @@ function cerrarDivAgregar(){
 
 
 function abrir(e){
-    $("txtApellido").className = "";
-    $("txtNombre").className = "";
+    $("txtApellido").className = "inputDatos";
+    $("txtNombre").className = "inputDatos";
+    $("fecha").className = "inputDatos";
+    $("fecha").max = fechaActual.toISOString(); //////////QUE ONDA ESTE MAX?
 
     mostarElemento("divAgregar");
 
@@ -175,11 +179,10 @@ function modificar(){
     }else{
         sexo="Male";
     }
-    
-    console.log(fechaActual);
-    console.log(fecha);
 
-    if(nombre.length >=4 && apellido.length>=4 && fecha > fechaActual){
+    var fechaJson = new Date(fecha);
+
+    if(nombre.length >=4 && apellido.length>=4 && fechaJson.getTime() < fechaActual.getTime()){
         var json = {"id":idJson, "nombre":nombre, "apellido":apellido, "fecha": fecha, "sexo": sexo};
     
         xml.onreadystatechange = callbackModificar;
@@ -188,7 +191,6 @@ function modificar(){
         xml.send(JSON.stringify(json));
         ocultarElemento("divAgregar");
     }else{
-        
         if(nombre.length <4){
             alert("Nombre debe tener al menos 4 caracteres");
             $("txtNombre").className = "sindato";
@@ -198,8 +200,9 @@ function modificar(){
             alert("Apellido debe tener al menos 4 caracteres");
             $("txtApellido").className = "sindato";
         }      
-        if(fecha < fechaActual){
-            alert("Fecha debe ser a la fecha de hoy");
+
+        if(fechaJson.getTime() > fechaActual.getTime()){
+            alert("Fecha debe ser menor a la fecha de hoy");
             $("fecha").className = "sindato";
         }
     }
@@ -213,11 +216,13 @@ function llenarDatos(id){
             $("txtNombre").value= arrayJson[i].nombre;
             $("txtApellido").value= arrayJson[i].apellido;
             $("fecha").value= arrayJson[i].fecha;
-            var sexo = $("radioOptionF").checked;
-            if(sexo == true){
-                $("radioOptionF").setDefaultButton;
+            var sexo = arrayJson[i].sexo;
+            if(sexo == "Female"){
+                console.log("es mujer");
+                $("radioOptionF").checked = true;
             }else{
-                $("radioOptionM").setDefaultButton;
+                console.log("es hombre");
+                $("radioOptionM").checked = true;
             }
         }
     }
