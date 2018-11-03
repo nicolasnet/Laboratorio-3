@@ -14,6 +14,14 @@ text{
     font-size: 150%;
 }
 
+
+img{
+    border-radius: 50%;
+    height: 80px;
+    width: 100px;
+}
+
+
 label{
     color: snow;
 }

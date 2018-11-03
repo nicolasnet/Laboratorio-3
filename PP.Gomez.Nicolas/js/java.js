@@ -16,14 +16,16 @@ window.onload = function(){
     xml.open("GET", "http://localhost:3000/personas",true);
     xml.send(null);
 
-    var btn = $("btnCerrar");
+    var btn = _$("btnCerrar");
     btn.addEventListener("click", cerrarDivAgregar);
 
-    var btn = $("btnEliminar");
+    var btn = _$("btnEliminar");
     btn.addEventListener("click", eliminar);
 
-    var btn = $("btnModificar");
+    var btn = _$("btnModificar");
     btn.addEventListener("click", modificar);
+
+    
 
 }
 
@@ -31,12 +33,12 @@ window.onload = function(){
 
 
 //#region Fc Genericas
-function $(id){
+function _$(id){
     var obj = document.getElementById(id);
     return obj;
 }
 
-function $Value(id){
+function _$Value(id){
     var valor = document.getElementById(id).value;
     return valor;
 }
@@ -46,12 +48,12 @@ function mayusPrimera(string){
 }
 
 function mostarElemento(id){
-    var obj = $(id);
+    var obj = _$(id);
     obj.hidden=false;
 }
 
 function ocultarElemento(id){
-    var obj = $(id);
+    var obj = _$(id);
     obj.hidden=true;
 }
 //#endregion
@@ -95,11 +97,11 @@ function callbackModificar(){
     if(xml.readyState == 4){
         if(xml.status == 200 || xml.status == 210){ //por default el 200 significa sin errores            
             ocultarElemento("loading");
-            //console.log(xml.responseText);
+            console.log(xml.responseText);
             var json = JSON.parse(xml.responseText);
-            //console.log(json);
+            console.log(json);
             for(var i=0; i<arrayJson.length; i++){
-                if(arrayJson[i].id == json  .id){
+                if(arrayJson[i].id == json.id){
                     arrayJson[i] = json;
                 }
             }
@@ -117,19 +119,56 @@ function completaTexto(){
     tabla.innerHTML = "";
 
     for(var i=0; i<arrayJson.length; i++){
-        tabla.innerHTML += "<tr id='tr"+i.toString()+"' name="+arrayJson[i].id+"><td>"+arrayJson[i].nombre+"</td>"+"<td>"+arrayJson[i].apellido+"</td>"+"<td>"+arrayJson[i].fecha+"</td>"+"<td>"+arrayJson[i].sexo+"</td></tr>";
+        tabla.innerHTML += "<tr id='tr"+i.toString()+"' name="+arrayJson[i].id+"><td><img src= '"+arrayJson[i].foto+"'></img><input type='file' hidden></td><td>"+arrayJson[i].nombre+"</td>"+"<td>"+arrayJson[i].apellido+"</td>"+"<td>"+arrayJson[i].fecha+"</td>"+"<td>"+arrayJson[i].sexo+"</td></tr>";
     }
     for(var i=0; i<arrayJson.length; i++){
         var fila = document.getElementById("tr"+i.toString());
         fila.addEventListener("dblclick", abrir);
     }
+
+    $("img").click(function(){
+        event.target.nextSibling.hidden = false;
+    });
+    $("input").change(function(){
+        
+        id = event.target.parentNode.parentNode.getAttribute("name");
+        //console.log(event.target.parentNode.parentNode.getAttribute("name"));
+
+        if(this.files && this.files[0]){ //si hay archivo en el array y en esta posicion 
+            var fReader = new FileReader();
+
+            fReader.addEventListener("load", function(e){
+                var obj = {
+                    id : id,
+                    foto : e.target.result
+                }
+                //console.log(e.target.result);
+                
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:3000/editarfoto",
+                    data: obj,
+                    success: function(){
+                        xml.onreadystatechange = callbackGet;
+                        xml.open("GET", "http://localhost:3000/personas",true);
+                        xml.send(null);
+                    }, //agregue este calback q es el mas similar
+                    dataType: "json"
+                  });
+
+            });
+            
+            //la siguiente funcion invoca al "load" al cual le seteamos una funcion anteriormente
+            fReader.readAsDataURL(this.files[0]); //base64:  con esto pasamos la imagen, el array de byts, a un string
+        }
+    });
 }
 
 
 function vaciarDivAgregar(){
-    $("txtNombre").value= "";
-    $("txtApellido").value= "";
-    $("fecha").value= "";
+    _$("txtNombre").value= "";
+    _$("txtApellido").value= "";
+    _$("fecha").value= "";
 }
 
 
@@ -141,10 +180,10 @@ function cerrarDivAgregar(){
 
 
 function abrir(e){
-    $("txtApellido").className = "inputDatos";
-    $("txtNombre").className = "inputDatos";
-    $("fecha").className = "inputDatos";
-    $("fecha").max = fechaActual.toISOString(); //////////QUE ONDA ESTE MAX?
+    _$("txtApellido").className = "inputDatos";
+    _$("txtNombre").className = "inputDatos";
+    _$("fecha").className = "inputDatos";
+    _$("fecha").max = fechaActual.toISOString(); //////////QUE ONDA ESTE MAX?
 
     mostarElemento("divAgregar");
 
@@ -170,11 +209,11 @@ function eliminar(){
 
 function modificar(){
     var sexo;
-    var nombre = $Value("txtNombre");
-    var apellido = $Value("txtApellido");
-    var fecha = $Value("fecha");
+    var nombre = _$Value("txtNombre");
+    var apellido = _$Value("txtApellido");
+    var fecha = _$Value("fecha");
 
-    if($("radioOptionF").checked){
+    if(_$("radioOptionF").checked){
         sexo = "Female";
     }else{
         sexo="Male";
@@ -193,17 +232,17 @@ function modificar(){
     }else{
         if(nombre.length <4){
             alert("Nombre debe tener al menos 4 caracteres");
-            $("txtNombre").className = "sindato";
+            _$("txtNombre").className = "sindato";
         }
 
         if(apellido.length <4){
             alert("Apellido debe tener al menos 4 caracteres");
-            $("txtApellido").className = "sindato";
+            _$("txtApellido").className = "sindato";
         }      
 
         if(fechaJson.getTime() > fechaActual.getTime()){
             alert("Fecha debe ser menor a la fecha de hoy");
-            $("fecha").className = "sindato";
+            _$("fecha").className = "sindato";
         }
     }
 }
@@ -213,16 +252,16 @@ function modificar(){
 function llenarDatos(id){
     for(var i=0; i<arrayJson.length; i++){
         if(arrayJson[i].id == id){
-            $("txtNombre").value= arrayJson[i].nombre;
-            $("txtApellido").value= arrayJson[i].apellido;
-            $("fecha").value= arrayJson[i].fecha;
+            _$("txtNombre").value= arrayJson[i].nombre;
+            _$("txtApellido").value= arrayJson[i].apellido;
+            _$("fecha").value= arrayJson[i].fecha;
             var sexo = arrayJson[i].sexo;
             if(sexo == "Female"){
                 console.log("es mujer");
-                $("radioOptionF").checked = true;
+                _$("radioOptionF").checked = true;
             }else{
                 console.log("es hombre");
-                $("radioOptionM").checked = true;
+                _$("radioOptionM").checked = true;
             }
         }
     }
