@@ -1063,9 +1063,8 @@ var datos =[
 
   // Retornar el promedio de edad de los usuarios hombres (number)
   lib.userMaleAgeAverage = function () {
-    
-    
   
+    
   };
 
   // Retornar el promedio de edad de los usuarios mujeres (number)

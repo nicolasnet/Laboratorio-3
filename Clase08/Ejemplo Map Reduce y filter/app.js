@@ -47,7 +47,7 @@ for(let i=0;i<nums.length;i++){
 console.log("Numeros mayores a 3 : ",numFiltered);
 
 console.log("Numeros mayores a 3 con filter :",nums.filter(function(num){
-    return num>3;
+    return num>3; //--> returna un bool, lo q sea true lo guarda en la nueva lista,
 }));
 
 console.log("Numeros mayeres a 3 con arrowfuntion: ",nums.filter(num=>num>3));
@@ -67,7 +67,7 @@ console.log("Sumatoria de numeros: ",total);
 
 var n  = nums.reduce(function(total,num){
     return total+=num;
-},0);
+},0); //-> aca definimos con q valor se inicia el valor q acumula (en este caso "total") y definimos de q tipo es el valor retornado por la funcion.
 
 console.log("Sumatoria de numeros con reduce: ",n);
 
