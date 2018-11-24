@@ -1,3 +1,6 @@
+//HAY Q AGREGARLE PARAMETROS A LAS CLASES, PARA TENER MAS DATOS Q MOSTRAR
+//TMB HAY Q AGREGAR BOTONES CON FUNCIONES REDUCE, FILTER, MAP PARA MODIFICAR LA TABLA.
+
 /// <reference path= "./animal.ts"/>
 /// <reference path= "./perro.ts"/>
 /// <reference path= "./gato.ts"/>
@@ -9,22 +12,68 @@ tsc ejemplo.ts       para transpilar un archivo a JS
 npm install @types/jquery --save     usar Jquery en TS
 
 */
+
+
+
 namespace ejemplo{
+
+    $(document).ready(function(){
+        $("#divAgregar").hide();
+        Programa.completarTabla();          
+    });
+
+
     export class Programa{
+       
         
-        animales = new Array<mascota.Animal>();
+
+        static animales = new Array<mascota.Animal>();
+
         
         static hablar(a:mascota.Animal){
             console.log("Nombre: "+a.nombre);
             a.hacerRuido();
-        }     
+        }
+        
+        
+        static completarTabla(){
+            var stringArrayJson = localStorage.getItem("listaJsonAnimales");
+            $("#divTabla").append("hola"); // ACA AGREGAR LA TABLA PARA Q APAREZCA EN EL HTML
+            console.log(stringArrayJson);
 
-        static guardar(){
-            console.log ($("#txtNuevo").val());
-            console.log( $("#radio_gato").is(':checked'));
         }
 
+
+        static agregar(){            
+            $("#divAgregar").show();
+        }
+
+
+        static guardar(){
+            
+            console.log ($("#txtNombre").val());
+            console.log( $("#radio_gato").is(':checked'));
+            if($("#radio_gato").is(':checked')){
+                
+                var gato:mascota.Gato = new mascota.Gato(String($("#txtNombre").val()));
+                Programa.animales.push(gato);
+                console.log(Programa.animales);
+                console.log(gato);
+            }
+            else{
+                var perro:mascota.Perro = new mascota.Perro(String($("#txtNombre").val()));
+                Programa.animales.push(perro);
+                console.log(Programa.animales);
+                console.log(perro);
+            }
+        }
+
+
+        
+
         static accion(){
+            
+            console.log(Programa.animales);
 
             /*
             podemos guardar los datos de los animales en el localstorage para dsp agarrarlos desde otra funcion
@@ -48,14 +97,20 @@ namespace ejemplo{
             //hablar(perro);
             //hablar(gato);            
             
-            var prog = new Programa();
+           
 
-            prog.animales.push(perro, gato);
-            prog.animales.push(gato);
+            Programa.animales.push(perro);
+            Programa.animales.push(gato);
 
-            prog.animales.forEach(Programa.hablar);
+            Programa.animales.forEach(Programa.hablar);
 
-            
+            var arrayObjJson = JSON.stringify(Programa.animales);
+            console.log(arrayObjJson);
+            localStorage.setItem("listaJsonAnimales", arrayObjJson);
+
+            console.log( JSON.parse(arrayObjJson));
+
+
         }
     }
 }

@@ -8,6 +8,8 @@ namespace mascota{
             this.nombre = nombre;
         }
 
+        
+
         hacerRuido():void{
             console.log("Guaaau!!");
         }

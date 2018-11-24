@@ -1,0 +1,120 @@
+body{
+    /*
+    height:100%;
+    width:100%;
+    */
+    background-color: rgb(41, 41, 41);
+}
+
+text{
+    stroke:rgb(255, 255, 255);
+    stroke-width:.8;
+    fill:none;
+    font-family: Consolas;
+    font-size: 150%;
+}
+
+
+img{
+    border-radius: 50%;
+    height: 80px;
+    width: 100px;
+}
+
+
+
+th{
+    background-color: darkred;
+}
+
+td{
+    color: whitesmoke;
+}
+
+table{
+    width: 100%;
+}
+
+/* Clases*/
+
+.divAgregar{
+    background-color:black;
+    animation-name: aparecer;
+    animation-duration: 3s;
+    position: absolute;
+    width: 25%;
+    font-weight: bold;/*poner en negrita*/
+    top: 25%;/*posicion del div absolute*/
+    right: 36.5%; /*posicion del div absolute*/
+    padding: 1%;
+    border-radius: 5px;
+}
+
+@keyframes aparecer{
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+
+.inputDatos{
+    width: 90%;
+}
+
+
+.loading{
+    /* 
+    width: 100%;
+    height: 100%;    
+    position: absolute;  
+    background-color: rgba(122, 0, 0, 0.089);
+    
+    padding-left: 40%;
+    padding-top: 15%;
+    
+    top:0; 
+    left:0;
+    */
+
+        
+    background-color: rgba(122, 0, 0, 0.089);
+    text-align: center;
+    position: fixed;
+    top: 0; 
+    left: 0;    
+    right: 0;
+    bottom: 0;    
+    
+}
+
+.loading img{
+    margin: 15%;
+}
+
+
+
+.sindato{
+    border-color: red;
+}
+
+/* BOTONES */
+
+.btnChico{
+    color: white;
+    border: none;
+    font-weight: bold;
+    border-radius: 10px;
+    margin: 0.4%;    
+}
+
+.btnChico.eliminar{
+    background-color: darkred;
+    float: left;
+}
+
+
+.btnChico.modificar{
+    background-color: darkcyan;
+    float: right;
+}
+
+
