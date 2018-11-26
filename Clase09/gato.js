@@ -2,11 +2,14 @@
 var mascota;
 (function (mascota) {
     var Gato = /** @class */ (function () {
-        function Gato(nombre) {
+        function Gato(nombre, edad, peso) {
+            this.especie = "gato";
             this.nombre = nombre;
+            this.edad = edad;
+            this.peso = peso;
         }
         Gato.prototype.hacerRuido = function () {
-            console.log("Guaaau!!");
+            console.log("Miauuu!!");
         };
         return Gato;
     }());

@@ -14,7 +14,7 @@ int, long, double -> number
 
 /*
 hacer esto en casa para tenerlo de manera global
-npm install - g tsg
+npm install -g tsg
 
 tsc Practica1.ts ----> para transpilar a JS
 tsc *.ts -----> para tranpilar a JS todos los archivos de la ubicacion

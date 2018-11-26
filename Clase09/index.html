@@ -4,27 +4,125 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>SP.Gomez-Nicolas</title>
+
     <!-- Importante el orden de los script, ya que es secuencial -->
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/style.css">
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./animal.js"></script> <!-- no hace falta agregar archivos de interface ya q estan vacios xq no existen en JS -->
     <script src="./perro.js"></script>
     <script src="./gato.js"></script>
+    <script src="./pajaro.js"></script>
     <script src="./ejemplo.js"></script>
     
 </head>
 <body>
+ 
+    <svg width="280" height="60" viewBox="0 0 260 60">
+        <text x="10" y="40">Lista de Animales: </text>
+    </svg>
 
+    <br>    
+
+
+    <button id="btnAgregar" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAgregar">
+        Agregar
+    </button>
+    <div class="form-group row">
+        <label for="controlSelect" class="labelBlanco col-2">Filtrado por especie:</label>
+        <select name="controlSelect" id="selectFiltro" class="form-control col-1">
+            <option value="" selected disabled hidden>-</option>
+            <option value="1">Gato</option>
+            <option value="2">Perro</option>
+            <option value="3">Pajaro</option>
+            <option value="4">Todos</option>
+        </select>
+      </div>
+      
+      <!-- Modal -->
+    <div class="modal fade color" id="modalAgregar" tabindex="-1" role="dialog" aria-labelledby="modalAgregarLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAgregarLabel">Agregar animal</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Nombre del animal:</label>
+                            <input type="text" class="form-control" id="txtNombre" required>
+                            <small class="form-text text-muted">No ingrese espacios en blanco</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Edad:</label>
+                            <input type="number" class="form-control" id="nmbEdad">
+                            <small class="form-text text-muted">Ingresar años de edad</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Peso:</label>
+                            <input type="number" class="form-control" id="nmbPeso">
+                            <small class="form-text text-muted">Ingresar peso en Kilogramos</small>
+                        </div>
+
+                        <div class="form-check-inline">                            
+                            <input type="radio" name="animal" id="radio_gato" class="form-check-input" checked > <label for="radio_gato" class="form-check-label"> Gato </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <input type="radio" name="animal" id="radio_perro" class="form-check-input"> <label for="radio_perro" class="form-check-label"> Perro </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <input type="radio" name="animal" id="radio_pajaro" class="form-check-input"> <label for="radio_pajaro" class="form-check-label"> Pajaro </label>
+                        </div>
+
+                        <div class="form-group" id="divPlumas">
+                            <label for="controlSelect">Plumaje</label>
+                            <select name="controlSelect" id="selectPlumas" class="form-control">
+                              <option value="1">Largas</option>
+                              <option value="2">Cortas</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <input type="reset" value="Reset"  class="btn btn-warning">
+                    <button id="btnHablar" class="btn btn-secondary">Hablar</button>
+                    <input type="submit" id="btnGuardar" value="Guardar"  class="btn btn-primary" data-dismiss="modal">
+                        
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <br>
     
-    <input type="text" name="" id="txtNuevo">
-    <br>
-    Gato <input type="radio" name="animal" id="radio_gato" checked>
-    Perro <input type="radio" name="animal" id="radio_perro">
-    <br>
-    <br>
-    <input type="button" id="btnGuardar" value="Guardar" onclick="ejemplo.Programa.guardar()">
-    <br>
-    <button id="btnHablar" onclick="ejemplo.Programa.accion()">Hablar</button>
+    <div id="divTabla" class="container">
+        <table class="table table-striped">
+            <thead>
+              <tr class="titulos">
+                <th>Especie</th>
+                <th>Nombre</th>
+                <th>Edad</th>
+                <th>Peso</th>
+                <th>Plumas</th>
+              </tr>
+            </thead>
+            <tbody id="tBodyAnimales">
+              
+
+            </tbody>
+          </table>
+    </div>
+
     
 </body>
 </html>
