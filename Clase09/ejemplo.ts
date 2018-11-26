@@ -4,6 +4,7 @@
 /// <reference path= "./animal.ts"/>
 /// <reference path= "./perro.ts"/>
 /// <reference path= "./gato.ts"/>
+/// <reference path= "./pajaro.ts"/>
 
 /*
 tsc --init            para iniciar en TS
@@ -18,62 +19,170 @@ npm install @types/jquery --save     usar Jquery en TS
 namespace ejemplo{
 
     $(document).ready(function(){
-        $("#divAgregar").hide();
-        Programa.completarTabla();          
+        Programa.completarTablaLocalStorage("listaJsonAnimales");
+        $("#divPlumas").hide();        
+        $("#radio_gato").click(function(){ Programa.ocultar("divPlumas")});     
+        $("#radio_perro").click(function(){ Programa.ocultar("divPlumas")});
+        $("#radio_pajaro").click(function(){ Programa.mostrar("divPlumas")});
+        $("#btnHablar").click(Programa.accion);
+        $("#btnGuardar").click(Programa.guardar);
+        $("#selectFiltro").change(Programa.filtradoEspecie);
     });
 
 
-    export class Programa{
-       
-        
+    export class Programa{        
 
         static animales = new Array<mascota.Animal>();
+
+
+        static mostrar(id:string){
+            $("#"+id).show();
+        }
+
+        static ocultar(id:string){
+            $("#"+id).hide();
+        }
+
+        static mayusPrimera(texto:string):string{
+            return texto.charAt(0).toUpperCase() + texto.slice(1).toLowerCase();
+        }
+
+
+
+
+        static JsonToAnimal(stringArrayJson:string):Array<mascota.Animal>{
+            var animales = new Array<mascota.Animal>();
+            var arrayJson = JSON.parse(String(stringArrayJson));
+
+            arrayJson.forEach(function (value:any) {
+
+                switch (value.especie) {
+                    case "perro":
+                        var perro:mascota.Perro = new mascota.Perro(Programa.mayusPrimera(String(value.nombre)), Number(value.edad), Number(value.peso));
+                        animales.push(perro);
+                        break;
+
+                    case "gato":
+                        var gato:mascota.Gato = new mascota.Gato(Programa.mayusPrimera(String(value.nombre)), Number(value.edad), Number(value.peso));
+                        animales.push(gato);
+                        break;
+                    case "pajaro":
+                        var pajaro:mascota.Pajaro = new mascota.Pajaro(Programa.mayusPrimera(String(value.nombre)), Number(value.edad), Number(value.peso), Number(value.plumas));
+                        animales.push(pajaro);
+                        break;                
+                }
+            });
+
+            return animales;
+        }
+
+
+        static vaciarForm(){
+            $("#txtNombre").val("");
+            $("#nmbEdad").val("");
+            $("#nmbPeso").val("");
+            $("#radio_gato").prop("checked", true);
+
+            $("#txtNombre").removeClass("sindato");
+            $("#nmbEdad").removeClass("sindato");
+            $("#nmbPeso").removeClass("sindato");            
+        }
+
+        
+        static completarArrayLocalStorage(claveLocalStorage:string){
+            var stringArrayJson = localStorage.getItem(claveLocalStorage);            
+            Programa.animales = Programa.JsonToAnimal(String(stringArrayJson));
+        }
+
+
+        static completarTablaLocalStorage(claveLocalStorage:string){
+            Programa.completarArrayLocalStorage(claveLocalStorage);
+            //console.log(Programa.animales);
+            $("#tBodyAnimales").text("");
+            
+            Programa.animales.forEach(function (value:any) {
+                var plumas;
+                if(value.plumas != null){
+                    plumas = mascota.Plumaje[value.plumas];
+                }
+                else{
+                    plumas = "-";
+                }
+                $("#tBodyAnimales").append("<tr >  <td>"+value.especie+"</td>  <td>"+value.nombre+"</td>  <td>"+value.edad+"</td> <td>"+value.peso+"</td> <td>"+plumas+"</td>  </tr> "); // ACA AGREGAR LA TABLA PARA Q APAREZCA EN EL HTML
+        
+            });
+            Programa.completarArrayLocalStorage("listaJsonAnimales");
+        }
 
         
         static hablar(a:mascota.Animal){
             console.log("Nombre: "+a.nombre);
             a.hacerRuido();
-        }
+        }       
         
         
-        static completarTabla(){
-            var stringArrayJson = localStorage.getItem("listaJsonAnimales");
-            $("#divTabla").append("hola"); // ACA AGREGAR LA TABLA PARA Q APAREZCA EN EL HTML
-            console.log(stringArrayJson);
-
-        }
-
-
-        static agregar(){            
-            $("#divAgregar").show();
-        }
-
 
         static guardar(){
             
-            console.log ($("#txtNombre").val());
-            console.log( $("#radio_gato").is(':checked'));
-            if($("#radio_gato").is(':checked')){
+            //console.log ($("#txtNombre").val());
+            //console.log( $("#radio_gato").is(':checked'));
+
+            if($("#txtNombre").val() == ""){
                 
-                var gato:mascota.Gato = new mascota.Gato(String($("#txtNombre").val()));
+                $("#txtNombre").addClass("sindato");
+                alert("completar Nombre");
+            }
+
+            if($("#nmbEdad").val() == ""){
+                
+                $("#nmbEdad").addClass("sindato");
+                alert("completar Edad");
+            }
+
+            if($("#nmbPeso").val() == ""){
+                
+                $("#nmbPeso").addClass("sindato");
+                alert("completar Peso");
+                
+            }
+
+            if($("#radio_gato").is(':checked')){                
+                var gato:mascota.Gato = new mascota.Gato(Programa.mayusPrimera(String($("#txtNombre").val())), Number($("#nmbEdad").val()), Number($("#nmbPeso").val()));
                 Programa.animales.push(gato);
                 console.log(Programa.animales);
                 console.log(gato);
             }
-            else{
-                var perro:mascota.Perro = new mascota.Perro(String($("#txtNombre").val()));
+
+            if($("#radio_perro").is(':checked')){
+                var perro:mascota.Perro = new mascota.Perro(Programa.mayusPrimera(String($("#txtNombre").val())), Number($("#nmbEdad").val()), Number($("#nmbPeso").val()));
                 Programa.animales.push(perro);
                 console.log(Programa.animales);
                 console.log(perro);
             }
+
+            if($("#radio_pajaro").is(':checked')){
+                var perro:mascota.Perro = new mascota.Pajaro(Programa.mayusPrimera(String($("#txtNombre").val())), Number($("#nmbEdad").val()), Number($("#nmbPeso").val()), Number($("#selectPlumas").val()));
+                Programa.animales.push(perro);
+                console.log(Programa.animales);
+                console.log(perro);
+            }
+
+            var arrayObjJson = JSON.stringify(Programa.animales);
+            localStorage.setItem("listaJsonAnimales", arrayObjJson);
+            
+
+            //Programa.ocultar("modalAgregar");
+            Programa.completarTablaLocalStorage("listaJsonAnimales");
+            Programa.vaciarForm();
         }
+
 
 
         
 
         static accion(){
             
-            console.log(Programa.animales);
+            //console.log(Programa.animales);
 
             /*
             podemos guardar los datos de los animales en el localstorage para dsp agarrarlos desde otra funcion
@@ -90,28 +199,65 @@ namespace ejemplo{
 */
             
 
-
+            /*
             var gato:mascota.Gato = new mascota.Gato("kiti");
             var perro:mascota.Perro = new mascota.Perro("tom");
- 
+            */
+
             //hablar(perro);
             //hablar(gato);            
             
            
-
+            /*
             Programa.animales.push(perro);
             Programa.animales.push(gato);
+            */
 
             Programa.animales.forEach(Programa.hablar);
-
+/*
             var arrayObjJson = JSON.stringify(Programa.animales);
             console.log(arrayObjJson);
             localStorage.setItem("listaJsonAnimales", arrayObjJson);
 
             console.log( JSON.parse(arrayObjJson));
-
-
+*/
         }
+
+
+        static filtradoEspecie(){
+            var opcion:number = Number($("#selectFiltro").val());
+            console.log(opcion);
+            var listaFiltrada = new Array<mascota.Animal>();
+            switch(opcion){
+                case 1:
+                    listaFiltrada = Programa.animales.filter(function(animal){
+                        return animal.especie == "gato"; //--> returna un bool, lo q sea true lo guarda en la nueva lista,
+                    });
+                    break;
+
+                case 2:
+                    listaFiltrada = Programa.animales.filter(function(animal){
+                        return animal.especie == "perro"; //--> returna un bool, lo q sea true lo guarda en la nueva lista,
+                    });
+                    break;
+
+                case 3:
+                    listaFiltrada = Programa.animales.filter(function(animal){
+                        return animal.especie == "pajaro"; //--> returna un bool, lo q sea true lo guarda en la nueva lista,
+                    });
+                    break;
+                default:
+                    listaFiltrada = Programa.animales;
+                    break;
+            }
+            
+
+            localStorage.setItem("listaFiltrada", JSON.stringify(listaFiltrada));
+            Programa.completarTablaLocalStorage("listaFiltrada");
+        }
+
+
+
     }
 }
 

@@ -2,8 +2,11 @@
 var mascota;
 (function (mascota) {
     var Perro = /** @class */ (function () {
-        function Perro(nombre) {
+        function Perro(nombre, edad, peso) {
+            this.especie = "perro";
             this.nombre = nombre;
+            this.edad = edad;
+            this.peso = peso;
         }
         Perro.prototype.hacerRuido = function () {
             console.log("Guaaau!!");
