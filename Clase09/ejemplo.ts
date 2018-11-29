@@ -20,19 +20,22 @@ namespace ejemplo{
 
     $(document).ready(function(){
         Programa.completarTablaLocalStorage("listaJsonAnimales");
-        $("#divPlumas").hide();        
+        $("#btnAgregar").click(Programa.inicioModalAgregar);
         $("#radio_gato").click(function(){ Programa.ocultar("divPlumas")});     
         $("#radio_perro").click(function(){ Programa.ocultar("divPlumas")});
         $("#radio_pajaro").click(function(){ Programa.mostrar("divPlumas")});
         $("#btnHablar").click(Programa.accion);
         $("#btnGuardar").click(Programa.guardar);
         $("#selectFiltro").change(Programa.filtradoEspecie);
+        $("#btnEliminar").click(Programa.eliminar);
+        $("#btnModificar").click(Programa.modificar);        
     });
 
 
     export class Programa{        
 
         static animales = new Array<mascota.Animal>();
+        static indexGlobal:number;
 
 
         static mostrar(id:string){
@@ -48,6 +51,15 @@ namespace ejemplo{
         }
 
 
+
+
+        static inicioModalAgregar(){
+            Programa.vaciarForm();
+            Programa.mostrar("btnGuardar");
+            Programa.ocultar("btnEliminar");
+            Programa.ocultar("btnModificar");
+            Programa.ocultar("divPlumas");
+        }
 
 
         static JsonToAnimal(stringArrayJson:string):Array<mascota.Animal>{
@@ -88,33 +100,67 @@ namespace ejemplo{
             $("#nmbPeso").removeClass("sindato");            
         }
 
+
+        static completarModalAgregar(index:number){
+            
+            $("#txtNombre").val(Programa.animales[index].nombre);
+            $("#nmbEdad").val(Programa.animales[index].edad);
+            $("#nmbPeso").val(Programa.animales[index].peso);
+            switch(Programa.animales[index].especie){
+                case "perro":
+                    $("#radio_perro").prop("checked", true);
+                    Programa.ocultar("divPlumas")
+                    break;
+                case "gato":
+                    $("#radio_gato").prop("checked", true);
+                    Programa.ocultar("divPlumas")
+                    break;
+                case "pajaro":
+                    $("#radio_pajaro").prop("checked", true);
+                    $("#selectPlumas").val(Programa.animales[index].plumas);
+                    Programa.mostrar("divPlumas");
+                    break;
+            }
+        }
+
         
-        static completarArrayLocalStorage(claveLocalStorage:string){
-            var stringArrayJson = localStorage.getItem(claveLocalStorage);            
-            Programa.animales = Programa.JsonToAnimal(String(stringArrayJson));
+        static completarArrayLocalStorage(claveLocalStorage:string):boolean{
+            var stringArrayJson = localStorage.getItem(claveLocalStorage);
+            if(stringArrayJson != null){
+                Programa.animales = Programa.JsonToAnimal(String(stringArrayJson));
+                return true;
+            }else{
+                return false;
+            }
+
         }
 
 
         static completarTablaLocalStorage(claveLocalStorage:string){
-            Programa.completarArrayLocalStorage(claveLocalStorage);
-            //console.log(Programa.animales);
-            $("#tBodyAnimales").text("");
+
+            if(Programa.completarArrayLocalStorage(claveLocalStorage)){
+                
+                $("#tBodyAnimales").text("");
+                
+                Programa.animales.forEach(function (value:any, index:number) {
+                    
+                    var plumas;
+                    if(value.plumas != null){
+                        plumas = mascota.Plumaje[value.plumas];
+                    }
+                    else{
+                        plumas = "-";
+                    }
+                    $("#tBodyAnimales").append("<tr id=tr" + index.toString() + ">  <td>"+value.especie+"</td>  <td>"+value.nombre+"</td>  <td>"+value.edad+"</td> <td>"+value.peso+"</td> <td>"+plumas+"</td>  </tr> "); // ACA AGREGAR LA TABLA PARA Q APAREZCA EN EL HTML
+                    $("#tr"+index.toString()).dblclick(function(){Programa.abrirModalEditado(index)});
+                });
+                Programa.completarArrayLocalStorage("listaJsonAnimales");
+            }
             
-            Programa.animales.forEach(function (value:any) {
-                var plumas;
-                if(value.plumas != null){
-                    plumas = mascota.Plumaje[value.plumas];
-                }
-                else{
-                    plumas = "-";
-                }
-                $("#tBodyAnimales").append("<tr >  <td>"+value.especie+"</td>  <td>"+value.nombre+"</td>  <td>"+value.edad+"</td> <td>"+value.peso+"</td> <td>"+plumas+"</td>  </tr> "); // ACA AGREGAR LA TABLA PARA Q APAREZCA EN EL HTML
-        
-            });
-            Programa.completarArrayLocalStorage("listaJsonAnimales");
         }
 
         
+
         static hablar(a:mascota.Animal){
             console.log("Nombre: "+a.nombre);
             a.hacerRuido();
@@ -123,57 +169,55 @@ namespace ejemplo{
         
 
         static guardar(){
-            
-            //console.log ($("#txtNombre").val());
-            //console.log( $("#radio_gato").is(':checked'));
+            Programa.animales.push(Programa.tomarDatosForm());            
 
-            if($("#txtNombre").val() == ""){
-                
+            Programa.guardarLocalStorage("listaJsonAnimales");
+            Programa.completarTablaLocalStorage("listaJsonAnimales");
+
+            Programa.vaciarForm();
+        }
+
+
+        static tomarDatosForm():mascota.Animal{
+            var animal: mascota.Animal;
+
+            if($("#txtNombre").val() == ""){                
                 $("#txtNombre").addClass("sindato");
                 alert("completar Nombre");
             }
 
-            if($("#nmbEdad").val() == ""){
-                
+            if($("#nmbEdad").val() == ""){                
                 $("#nmbEdad").addClass("sindato");
                 alert("completar Edad");
             }
 
-            if($("#nmbPeso").val() == ""){
-                
+            if($("#nmbPeso").val() == ""){                
                 $("#nmbPeso").addClass("sindato");
-                alert("completar Peso");
-                
+                alert("completar Peso");                
             }
 
+
+
             if($("#radio_gato").is(':checked')){                
-                var gato:mascota.Gato = new mascota.Gato(Programa.mayusPrimera(String($("#txtNombre").val())), Number($("#nmbEdad").val()), Number($("#nmbPeso").val()));
-                Programa.animales.push(gato);
-                console.log(Programa.animales);
-                console.log(gato);
+                var animal:mascota.Gato = new mascota.Gato(Programa.mayusPrimera(String($("#txtNombre").val())), Number($("#nmbEdad").val()), Number($("#nmbPeso").val()));                
             }
 
             if($("#radio_perro").is(':checked')){
-                var perro:mascota.Perro = new mascota.Perro(Programa.mayusPrimera(String($("#txtNombre").val())), Number($("#nmbEdad").val()), Number($("#nmbPeso").val()));
-                Programa.animales.push(perro);
-                console.log(Programa.animales);
-                console.log(perro);
+                var animal:mascota.Perro = new mascota.Perro(Programa.mayusPrimera(String($("#txtNombre").val())), Number($("#nmbEdad").val()), Number($("#nmbPeso").val()));                
             }
 
             if($("#radio_pajaro").is(':checked')){
-                var perro:mascota.Perro = new mascota.Pajaro(Programa.mayusPrimera(String($("#txtNombre").val())), Number($("#nmbEdad").val()), Number($("#nmbPeso").val()), Number($("#selectPlumas").val()));
-                Programa.animales.push(perro);
-                console.log(Programa.animales);
-                console.log(perro);
+                var animal:mascota.Perro = new mascota.Pajaro(Programa.mayusPrimera(String($("#txtNombre").val())), Number($("#nmbEdad").val()), Number($("#nmbPeso").val()), Number($("#selectPlumas").val()));                
             }
 
-            var arrayObjJson = JSON.stringify(Programa.animales);
-            localStorage.setItem("listaJsonAnimales", arrayObjJson);
-            
+            return animal;
+        }
 
-            //Programa.ocultar("modalAgregar");
-            Programa.completarTablaLocalStorage("listaJsonAnimales");
-            Programa.vaciarForm();
+
+
+        static guardarLocalStorage(claveLocalStorage:string){
+            var arrayObjJson = JSON.stringify(Programa.animales);
+            localStorage.setItem(claveLocalStorage, arrayObjJson);
         }
 
 
@@ -226,7 +270,6 @@ namespace ejemplo{
 
         static filtradoEspecie(){
             var opcion:number = Number($("#selectFiltro").val());
-            console.log(opcion);
             var listaFiltrada = new Array<mascota.Animal>();
             switch(opcion){
                 case 1:
@@ -257,6 +300,33 @@ namespace ejemplo{
         }
 
 
+
+        static abrirModalEditado(index:number){
+            console.log(index);
+            Programa.indexGlobal = index;
+            $("#modalAgregar").modal("show");
+            Programa.ocultar("btnGuardar");
+            Programa.mostrar("btnEliminar");
+            Programa.mostrar("btnModificar");
+            Programa.completarModalAgregar(index);
+        }
+
+        static eliminar(){
+            if(confirm("Seguro desea eliminar este animal?")){
+                Programa.animales.splice(Programa.indexGlobal,1);
+                Programa.guardarLocalStorage("listaJsonAnimales");
+                Programa.completarTablaLocalStorage("listaJsonAnimales");
+                //Programa.ocultar("btnEliminar");
+                //Programa.mostrar("btnGuardar");
+            }
+        }
+
+        static modificar(){
+            Programa.animales.splice(Programa.indexGlobal,1,Programa.tomarDatosForm());
+            Programa.guardarLocalStorage("listaJsonAnimales");
+            Programa.completarTablaLocalStorage("listaJsonAnimales");
+            Programa.vaciarForm();
+        }
 
     }
 }
