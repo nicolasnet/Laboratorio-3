@@ -31,7 +31,16 @@ namespace ejemplo{
         $("#btnModificar").click(Programa.modificar);
         $("#btnPromEdad").click(Programa.promedioEdad);
         $("#btnPromPeso").click(Programa.promedioPeso);
-        $("#thColespecie").click(function(){$("td[name=colEspecie]").hide()});
+        $("#btnVerColumnas").click(Programa.verColumnas);
+        $("#btnPlumasCortas").click(function() {Programa.muestraPlumas(2)});
+        $("#btnPlumasLargas").click(function() {Programa.muestraPlumas(1)});
+
+        $("#thColEspecie").dblclick(function(){Programa.columnaOcultar("Especie")});
+        $("#thColNombre").dblclick(function(){Programa.columnaOcultar("Nombre")});
+        $("#thColEdad").dblclick(function(){Programa.columnaOcultar("Edad")});
+        $("#thColPeso").dblclick(function(){Programa.columnaOcultar("Peso")});
+        $("#thColPlumas").dblclick(function(){Programa.columnaOcultar("plumas")});
+
     });
 
 
@@ -39,6 +48,18 @@ namespace ejemplo{
 
         static animales = new Array<mascota.Animal>();
         static indexGlobal:number;
+
+
+        static verColumnas(){
+            console.log("Funca");
+            $("th").show();
+            $("td").show();
+        }
+
+        static columnaOcultar(columna:string) {
+            $("td[name=col"+Programa.mayusPrimera(columna)+"]").hide();
+            $("#thCol"+Programa.mayusPrimera(columna)).hide();
+        }
 
 
         static mostrar(id:string){
@@ -154,7 +175,7 @@ namespace ejemplo{
                     else{
                         plumas = "-";
                     }
-                    $("#tBodyAnimales").append("<tr id=tr" + index.toString() + ">  <td name='colEspecie'>"+value.especie+"</td>  <td>"+value.nombre+"</td>  <td>"+value.edad+"</td> <td>"+value.peso+"</td> <td>"+plumas+"</td>  </tr> "); // ACA AGREGAR LA TABLA PARA Q APAREZCA EN EL HTML
+                    $("#tBodyAnimales").append("<tr id=tr" + index.toString() + ">  <td name='colEspecie'>"+value.especie+"</td>  <td name='colNombre'>"+value.nombre+"</td>  <td name='colEdad'>"+value.edad+"</td> <td name='colPeso'>"+value.peso+"</td> <td name='colPlumas'>"+plumas+"</td>  </tr> "); // ACA AGREGAR LA TABLA PARA Q APAREZCA EN EL HTML
                     $("#tr"+index.toString()).dblclick(function(){Programa.abrirModalEditado(index)});
                     $("#thColEspecie").dblclick(function(){$('td[name=tcol1]').hide()});
                 });
@@ -346,6 +367,15 @@ namespace ejemplo{
             },0)/Programa.animales.length;
 
             alert("Promedio de peso: "+promedio);
+        }
+
+        static muestraPlumas(plumas:number){
+            var ejemplo = Programa.animales.filter(function(item){
+                return item.especie == "pajaro" && item.plumas==plumas;
+            }).map(function(item){
+                return {name: item.nombre};
+            });
+            console.log(ejemplo);
         }
 
     }

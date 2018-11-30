@@ -12,7 +12,7 @@ npm install @types/jquery --save     usar Jquery en TS
 
 */
 var ejemplo;
-(function (ejemplo) {
+(function (ejemplo_1) {
     $(document).ready(function () {
         Programa.completarTablaLocalStorage("listaJsonAnimales");
         $("#btnAgregar").click(Programa.inicioModalAgregar);
@@ -26,11 +26,27 @@ var ejemplo;
         $("#btnModificar").click(Programa.modificar);
         $("#btnPromEdad").click(Programa.promedioEdad);
         $("#btnPromPeso").click(Programa.promedioPeso);
-        $("#thColespecie").click(function () { $("td[name=colEspecie]").hide(); });
+        $("#btnVerColumnas").click(Programa.verColumnas);
+        $("#btnPlumasCortas").click(function () { Programa.muestraPlumas(2); });
+        $("#btnPlumasLargas").click(function () { Programa.muestraPlumas(1); });
+        $("#thColEspecie").dblclick(function () { Programa.columnaOcultar("Especie"); });
+        $("#thColNombre").dblclick(function () { Programa.columnaOcultar("Nombre"); });
+        $("#thColEdad").dblclick(function () { Programa.columnaOcultar("Edad"); });
+        $("#thColPeso").dblclick(function () { Programa.columnaOcultar("Peso"); });
+        $("#thColPlumas").dblclick(function () { Programa.columnaOcultar("plumas"); });
     });
     var Programa = /** @class */ (function () {
         function Programa() {
         }
+        Programa.verColumnas = function () {
+            console.log("Funca");
+            $("th").show();
+            $("td").show();
+        };
+        Programa.columnaOcultar = function (columna) {
+            $("td[name=col" + Programa.mayusPrimera(columna) + "]").hide();
+            $("#thCol" + Programa.mayusPrimera(columna)).hide();
+        };
         Programa.mostrar = function (id) {
             $("#" + id).show();
         };
@@ -118,7 +134,7 @@ var ejemplo;
                     else {
                         plumas = "-";
                     }
-                    $("#tBodyAnimales").append("<tr id=tr" + index.toString() + ">  <td name='colEspecie'>" + value.especie + "</td>  <td>" + value.nombre + "</td>  <td>" + value.edad + "</td> <td>" + value.peso + "</td> <td>" + plumas + "</td>  </tr> "); // ACA AGREGAR LA TABLA PARA Q APAREZCA EN EL HTML
+                    $("#tBodyAnimales").append("<tr id=tr" + index.toString() + ">  <td name='colEspecie'>" + value.especie + "</td>  <td name='colNombre'>" + value.nombre + "</td>  <td name='colEdad'>" + value.edad + "</td> <td name='colPeso'>" + value.peso + "</td> <td name='colPlumas'>" + plumas + "</td>  </tr> "); // ACA AGREGAR LA TABLA PARA Q APAREZCA EN EL HTML
                     $("#tr" + index.toString()).dblclick(function () { Programa.abrirModalEditado(index); });
                     $("#thColEspecie").dblclick(function () { $('td[name=tcol1]').hide(); });
                 });
@@ -260,8 +276,16 @@ var ejemplo;
             }, 0) / Programa.animales.length;
             alert("Promedio de peso: " + promedio);
         };
+        Programa.muestraPlumas = function (plumas) {
+            var ejemplo = Programa.animales.filter(function (item) {
+                return item.especie == "pajaro" && item.plumas == plumas;
+            }).map(function (item) {
+                return { name: item.nombre };
+            });
+            console.log(ejemplo);
+        };
         Programa.animales = new Array();
         return Programa;
     }());
-    ejemplo.Programa = Programa;
+    ejemplo_1.Programa = Programa;
 })(ejemplo || (ejemplo = {}));

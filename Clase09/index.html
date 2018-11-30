@@ -27,15 +27,20 @@
     <br>    
 
     <div class="row justify-content-between">
-        <div class="col-2">
+        <div class="col-1">
             <button id="btnAgregar" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAgregar">
                     Agregar
             </button>
+        </div>
+        <div class="col-1">
+            <input type="button" value="Ver todas Columnas" id="btnVerColumnas" class="btn btn-light">
         </div>
         
         <div class="col-4">
             <input type="button" value="Promedio Edad" id="btnPromEdad" class="btn btn-secondary">
             <input type="button" value="Promedio Peso" id="btnPromPeso" class="btn btn-secondary">
+            <input type="button" value="Plumas Cortas" id="btnPlumasCortas" class="btn btn-secondary"> 
+            <input type="button" value="Plumas Largas" id="btnPlumasLargas" class="btn btn-secondary">
         </div>
         
     </div>
@@ -121,11 +126,11 @@
         <table class="table table-striped">
             <thead>
               <tr class="titulos">
-                <th><input type="button" value="Especie" id="thColEspecie" class="btn btn-link"> </th>
-                <th><input type="button" value="Nombre" id="thColNombre" class="btn btn-link"> </th>
-                <th><input type="button" value="Edad" id="thColEdad" class="btn btn-link"> </th>
-                <th><input type="button" value="Peso" id="thColPeso" class="btn btn-link"> </th>
-                <th><input type="button" value="Plumas" id="thColPlumas" class="btn btn-link"> </th>
+                <th id="thColEspecie"><input type="button" value="Especie" class="btn btn-link"> </th>
+                <th id="thColNombre"><input type="button" value="Nombre" class="btn btn-link"> </th>
+                <th id="thColEdad"><input type="button" value="Edad" class="btn btn-link"> </th>
+                <th id="thColPeso"><input type="button" value="Peso" class="btn btn-link"> </th>
+                <th id="thColPlumas"><input type="button" value="Plumas" class="btn btn-link"> </th>
               </tr>
             </thead>
             <tbody id="tBodyAnimales">
