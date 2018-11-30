@@ -21,7 +21,6 @@ img{
     width: 100px;
 }
 
-<<<<<<< HEAD
 .modal{
     color: royalblue;
 }
@@ -29,6 +28,11 @@ img{
 .modal-backdrop
 {
     opacity:0.8 !important;
+}
+
+.btn-link{
+    color: snow;
+    font-weight: bold;
 }
 
 
@@ -46,10 +50,6 @@ tr{
 
 
 /*
-=======
-
-
->>>>>>> fa4a4f871082096d7ea124887466888c5310e7b2
 th{
     background-color: darkred;
 }
@@ -61,7 +61,6 @@ td{
 table{
     width: 100%;
 }
-<<<<<<< HEAD
 */
 /* Clases*/
 
@@ -69,10 +68,6 @@ table{
 .labelBlanco{
     color: snow;
 }
-=======
-
-/* Clases*/
->>>>>>> fa4a4f871082096d7ea124887466888c5310e7b2
 
 .divAgregar{
     background-color:black;

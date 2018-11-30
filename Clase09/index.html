@@ -26,10 +26,20 @@
 
     <br>    
 
+    <div class="row justify-content-between">
+        <div class="col-2">
+            <button id="btnAgregar" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAgregar">
+                    Agregar
+            </button>
+        </div>
+        
+        <div class="col-4">
+            <input type="button" value="Promedio Edad" id="btnPromEdad" class="btn btn-secondary">
+            <input type="button" value="Promedio Peso" id="btnPromPeso" class="btn btn-secondary">
+        </div>
+        
+    </div>
 
-    <button id="btnAgregar" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAgregar">
-        Agregar
-    </button>
     <div class="form-group row">
         <label for="controlSelect" class="labelBlanco col-2">Filtrado por especie:</label>
         <select name="controlSelect" id="selectFiltro" class="form-control col-1">
@@ -111,11 +121,11 @@
         <table class="table table-striped">
             <thead>
               <tr class="titulos">
-                <th>Especie</th>
-                <th>Nombre</th>
-                <th>Edad</th>
-                <th>Peso</th>
-                <th>Plumas</th>
+                <th><input type="button" value="Especie" id="thColEspecie" class="btn btn-link"> </th>
+                <th><input type="button" value="Nombre" id="thColNombre" class="btn btn-link"> </th>
+                <th><input type="button" value="Edad" id="thColEdad" class="btn btn-link"> </th>
+                <th><input type="button" value="Peso" id="thColPeso" class="btn btn-link"> </th>
+                <th><input type="button" value="Plumas" id="thColPlumas" class="btn btn-link"> </th>
               </tr>
             </thead>
             <tbody id="tBodyAnimales">

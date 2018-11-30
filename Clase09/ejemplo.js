@@ -24,6 +24,9 @@ var ejemplo;
         $("#selectFiltro").change(Programa.filtradoEspecie);
         $("#btnEliminar").click(Programa.eliminar);
         $("#btnModificar").click(Programa.modificar);
+        $("#btnPromEdad").click(Programa.promedioEdad);
+        $("#btnPromPeso").click(Programa.promedioPeso);
+        $("#thColespecie").click(function () { $("td[name=colEspecie]").hide(); });
     });
     var Programa = /** @class */ (function () {
         function Programa() {
@@ -115,8 +118,9 @@ var ejemplo;
                     else {
                         plumas = "-";
                     }
-                    $("#tBodyAnimales").append("<tr id=tr" + index.toString() + ">  <td>" + value.especie + "</td>  <td>" + value.nombre + "</td>  <td>" + value.edad + "</td> <td>" + value.peso + "</td> <td>" + plumas + "</td>  </tr> "); // ACA AGREGAR LA TABLA PARA Q APAREZCA EN EL HTML
+                    $("#tBodyAnimales").append("<tr id=tr" + index.toString() + ">  <td name='colEspecie'>" + value.especie + "</td>  <td>" + value.nombre + "</td>  <td>" + value.edad + "</td> <td>" + value.peso + "</td> <td>" + plumas + "</td>  </tr> "); // ACA AGREGAR LA TABLA PARA Q APAREZCA EN EL HTML
                     $("#tr" + index.toString()).dblclick(function () { Programa.abrirModalEditado(index); });
+                    $("#thColEspecie").dblclick(function () { $('td[name=tcol1]').hide(); });
                 });
                 Programa.completarArrayLocalStorage("listaJsonAnimales");
             }
@@ -243,6 +247,18 @@ var ejemplo;
             Programa.guardarLocalStorage("listaJsonAnimales");
             Programa.completarTablaLocalStorage("listaJsonAnimales");
             Programa.vaciarForm();
+        };
+        Programa.promedioEdad = function () {
+            var promedio = Programa.animales.reduce(function (total, item) {
+                return total += item.edad;
+            }, 0) / Programa.animales.length;
+            alert("Promedio de edad: " + promedio);
+        };
+        Programa.promedioPeso = function () {
+            var promedio = Programa.animales.reduce(function (total, item) {
+                return total += item.peso;
+            }, 0) / Programa.animales.length;
+            alert("Promedio de peso: " + promedio);
         };
         Programa.animales = new Array();
         return Programa;
