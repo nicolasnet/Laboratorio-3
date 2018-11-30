@@ -131,6 +131,7 @@ namespace ejemplo{
             Programa.ocultar("btnEliminar");
             Programa.ocultar("btnModificar");
             Programa.ocultar("divPlumas");
+            //$("#modalAgregar").slideToggle();
         }
 
         
