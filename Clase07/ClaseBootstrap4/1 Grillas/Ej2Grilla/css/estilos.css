@@ -1,0 +1,13 @@
+.borde{
+    border: 1px solid black;
+    height: 100px;
+    background-color: #aaa;
+}
+
+.color1{
+    background-color: #bbb;
+}
+
+.color2{
+    background-color: #ccc;
+}

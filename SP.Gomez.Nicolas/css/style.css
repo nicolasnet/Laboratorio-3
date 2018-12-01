@@ -70,23 +70,6 @@ table{
     color: snow;
 }
 
-.divAgregar{
-    background-color:black;
-    animation-name: aparecer;
-    animation-duration: 3s;
-    position: absolute;
-    width: 25%;
-    font-weight: bold;/*poner en negrita*/
-    top: 25%;/*posicion del div absolute*/
-    right: 36.5%; /*posicion del div absolute*/
-    padding: 1%;
-    border-radius: 5px;
-}
-
-@keyframes aparecer{
-    from {opacity: 0;}
-    to {opacity: 1;}
-}
 
 
 .inputDatos{

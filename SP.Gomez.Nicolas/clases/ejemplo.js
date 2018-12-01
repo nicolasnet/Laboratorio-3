@@ -1,9 +1,5 @@
-//HAY Q AGREGARLE PARAMETROS A LAS CLASES, PARA TENER MAS DATOS Q MOSTRAR
-//TMB HAY Q AGREGAR BOTONES CON FUNCIONES REDUCE, FILTER, MAP PARA MODIFICAR LA TABLA.
-/// <reference path= "./animal.ts"/>
-/// <reference path= "./perro.ts"/>
-/// <reference path= "./gato.ts"/>
-/// <reference path= "./pajaro.ts"/>
+/// <reference path= "./persona.ts"/>
+/// <reference path= "./cliente.ts"/>
 /*
 tsc --init            para iniciar en TS
 tsc *.ts -w           para que se quede preparando los archivos en JS continuamente
@@ -14,26 +10,20 @@ npm install @types/jquery --save     usar Jquery en TS
 var ejemplo;
 (function (ejemplo_1) {
     $(document).ready(function () {
-        Programa.completarTablaLocalStorage("listaJsonAnimales");
+        Programa.completarTablaLocalStorage("listaJsonclientes");
         $("#btnAgregar").click(Programa.inicioModalAgregar);
-        $("#radio_gato").click(function () { Programa.ocultar("divPlumas"); });
-        $("#radio_perro").click(function () { Programa.ocultar("divPlumas"); });
-        $("#radio_pajaro").click(function () { Programa.mostrar("divPlumas"); });
-        $("#btnHablar").click(Programa.accion);
         $("#btnGuardar").click(Programa.guardar);
-        $("#selectFiltro").change(Programa.filtradoEspecie);
+        $("#selectFiltro").change(Programa.filtradoSexo);
         $("#btnEliminar").click(Programa.eliminar);
-        $("#btnModificar").click(Programa.modificar);
         $("#btnPromEdad").click(Programa.promedioEdad);
-        $("#btnPromPeso").click(Programa.promedioPeso);
-        $("#btnVerColumnas").click(Programa.verColumnas);
-        $("#btnPlumasCortas").click(function () { Programa.muestraPlumas(2); });
-        $("#btnPlumasLargas").click(function () { Programa.muestraPlumas(1); });
-        $("#thColEspecie").dblclick(function () { Programa.columnaOcultar("Especie"); });
-        $("#thColNombre").dblclick(function () { Programa.columnaOcultar("Nombre"); });
-        $("#thColEdad").dblclick(function () { Programa.columnaOcultar("Edad"); });
-        $("#thColPeso").dblclick(function () { Programa.columnaOcultar("Peso"); });
-        $("#thColPlumas").dblclick(function () { Programa.columnaOcultar("plumas"); });
+        $("#btnModificar").click(Programa.modificar);
+        $("#btnLimpiar").click(Programa.limpiar);
+        $("#btnMayores").click(function () { Programa.muestraMayores(1); });
+        $("#chkNombre").change(function () { Programa.columnaOcultar("Nombre"); });
+        $("#chkApellido").change(function () { Programa.columnaOcultar("Apellido"); });
+        $("#chkEdad").change(function () { Programa.columnaOcultar("Edad"); });
+        $("#chkId").change(function () { Programa.columnaOcultar("Id"); });
+        $("#chkSexo").change(function () { Programa.columnaOcultar("Sexo"); });
     });
     var Programa = /** @class */ (function () {
         function Programa() {
@@ -45,8 +35,14 @@ var ejemplo;
             $("td").show();
         };
         Programa.columnaOcultar = function (columna) {
-            $("td[name=col" + Programa.mayusPrimera(columna) + "]").hide();
-            $("#thCol" + Programa.mayusPrimera(columna)).hide();
+            if ($("#chk" + columna).prop("checked")) {
+                $("td[name=col" + Programa.mayusPrimera(columna) + "]").show();
+                $("#thCol" + Programa.mayusPrimera(columna)).show();
+            }
+            else {
+                $("td[name=col" + Programa.mayusPrimera(columna) + "]").hide();
+                $("#thCol" + Programa.mayusPrimera(columna)).hide();
+            }
         };
         Programa.mostrar = function (id) {
             $("#" + id).show();
@@ -58,88 +54,55 @@ var ejemplo;
             return texto.charAt(0).toUpperCase() + texto.slice(1).toLowerCase();
         };
         //#endregion
-        Programa.accion = function () {
-            /*
-                        //solo se guardan STRING en localStorage y sessionStorage
-                        localStorage.setItem("clave", "valor");//esto lo guarda en archivos temporales locales, se mantienen por mas q se cierre el navegador
-                        //sessionStorage.setItem("clave", "valor"); //esto lo guardo en una pestaña del navegador
-                        
-                        
-                        //window.location; // trae la ubicacion completa de donde estamos
-                        window.location.href="./index2.html"; //cambiamos la referencia a un nuevo html
-                        alert(localStorage.getItem("clave"));
-            */
-            Programa.animales.forEach(Programa.hablar);
+        Programa.limpiar = function () {
+            localStorage.clear();
         };
-        Programa.hablar = function (a) {
-            console.log("Nombre: " + a.nombre);
-            a.hacerRuido();
-        };
-        Programa.JsonToAnimal = function (stringArrayJson) {
-            var animales = new Array();
+        Programa.JsonToPersona = function (stringArrayJson) {
+            var clientes = new Array();
             var arrayJson = JSON.parse(String(stringArrayJson));
             arrayJson.forEach(function (value) {
-                switch (value.especie) {
-                    case "perro":
-                        var perro = new mascota.Perro(Programa.mayusPrimera(String(value.nombre)), Number(value.edad), Number(value.peso));
-                        animales.push(perro);
-                        break;
-                    case "gato":
-                        var gato = new mascota.Gato(Programa.mayusPrimera(String(value.nombre)), Number(value.edad), Number(value.peso));
-                        animales.push(gato);
-                        break;
-                    case "pajaro":
-                        var pajaro = new mascota.Pajaro(Programa.mayusPrimera(String(value.nombre)), Number(value.edad), Number(value.peso), Number(value.plumas));
-                        animales.push(pajaro);
-                        break;
-                }
+                var cliente = new humano.Cliente(value.id, Programa.mayusPrimera(String(value.nombre)), Programa.mayusPrimera(String(value.apellido)), Number(value.edad), Number(value.sexo));
+                clientes.push(cliente);
             });
-            return animales;
+            return clientes;
         };
         Programa.inicioModalAgregar = function () {
             Programa.vaciarForm();
             Programa.mostrar("btnGuardar");
             Programa.ocultar("btnEliminar");
             Programa.ocultar("btnModificar");
-            Programa.ocultar("divPlumas");
-            //$("#modalAgregar").slideToggle();
         };
         Programa.vaciarForm = function () {
             $("#txtNombre").val("");
             $("#nmbEdad").val("");
-            $("#nmbPeso").val("");
-            $("#radio_gato").prop("checked", true);
+            $("#txtApellido").val("");
+            $("#nbmId").val("");
             $("#txtNombre").removeClass("sindato");
             $("#nmbEdad").removeClass("sindato");
-            $("#nmbPeso").removeClass("sindato");
+            $("#txtApellido").removeClass("sindato");
         };
         Programa.completarModalAgregar = function (index) {
             $("#txtNombre").removeClass("sindato");
             $("#nmbEdad").removeClass("sindato");
-            $("#nmbPeso").removeClass("sindato");
-            $("#txtNombre").val(Programa.animales[index].nombre);
-            $("#nmbEdad").val(Programa.animales[index].edad);
-            $("#nmbPeso").val(Programa.animales[index].peso);
-            switch (Programa.animales[index].especie) {
-                case "perro":
-                    $("#radio_perro").prop("checked", true);
-                    Programa.ocultar("divPlumas");
+            $("#txtApellido").removeClass("sindato");
+            Programa.mostrar("btnModificar");
+            $("#nmbId").val(Programa.clientes[index].id);
+            $("#txtNombre").val(Programa.clientes[index].nombre);
+            $("#nmbEdad").val(Programa.clientes[index].edad);
+            $("#txtApellido").val(Programa.clientes[index].apellido);
+            switch (Programa.clientes[index].sexo) {
+                case 1:
+                    $("#selectSexo").val(1);
                     break;
-                case "gato":
-                    $("#radio_gato").prop("checked", true);
-                    Programa.ocultar("divPlumas");
-                    break;
-                case "pajaro":
-                    $("#radio_pajaro").prop("checked", true);
-                    $("#selectPlumas").val(Programa.animales[index].plumas);
-                    Programa.mostrar("divPlumas");
+                case 2:
+                    $("#selectSexo").val(2);
                     break;
             }
         };
         Programa.completarArrayLocalStorage = function (claveLocalStorage) {
             var stringArrayJson = localStorage.getItem(claveLocalStorage);
             if (stringArrayJson != null) {
-                Programa.animales = Programa.JsonToAnimal(String(stringArrayJson));
+                Programa.clientes = Programa.JsonToPersona(String(stringArrayJson));
                 return true;
             }
             else {
@@ -148,25 +111,25 @@ var ejemplo;
         };
         Programa.completarTablaLocalStorage = function (claveLocalStorage) {
             if (Programa.completarArrayLocalStorage(claveLocalStorage)) {
-                $("#tBodyAnimales").text("");
-                Programa.animales.forEach(function (value, index) {
-                    var plumas;
-                    if (value.plumas != null) {
-                        plumas = mascota.Plumaje[value.plumas];
-                    }
-                    else {
-                        plumas = "-";
-                    }
-                    $("#tBodyAnimales").append("<tr id=tr" + index.toString() + ">  <td name='colEspecie'>" + value.especie + "</td>  <td name='colNombre'>" + value.nombre + "</td>  <td name='colEdad'>" + value.edad + "</td> <td name='colPeso'>" + value.peso + "</td> <td name='colPlumas'>" + plumas + "</td>  </tr> "); // ACA AGREGAR LA TABLA PARA Q APAREZCA EN EL HTML
-                    $("#tr" + index.toString()).dblclick(function () { Programa.abrirModalEditado(index); });
-                    $("#thColEspecie").dblclick(function () { $('td[name=tcol1]').hide(); });
+                $("#tBodyClientes").text("");
+                Programa.clientes.forEach(function (value, index) {
+                    $("#tBodyClientes").append("<tr id=tr" + value.id.toString() + ">  <td name='colId'>" + value.id + "</td>  <td name='colNombre'>" + value.nombre + "</td> <td name='colApellido'>" + value.apellido + "</td>  <td name='colEdad'>" + value.edad + "</td> <td name='colSexo'>" + humano.Genero[value.sexo] + "</td> </tr> ");
+                    $("#tr" + value.id.toString()).dblclick(function () { Programa.abrirModalEditado(index); });
+                    //$("#thColEspecie").dblclick(function(){$('td[name=tcol1]').hide()});
                 });
-                Programa.completarArrayLocalStorage("listaJsonAnimales");
+                Programa.completarArrayLocalStorage("listaJsonclientes");
             }
         };
         Programa.tomarDatosForm = function () {
-            var animal;
+            var cliente;
             var datosCompletos = true;
+            var id = Programa.clientes.reduce(function (total, item) {
+                if (total < item.id) {
+                    return total = item.id;
+                }
+                else
+                    return total;
+            }, 0) + 1;
             if ($("#txtNombre").val() == "") {
                 $("#txtNombre").addClass("sindato");
                 datosCompletos = false;
@@ -177,38 +140,30 @@ var ejemplo;
                 alert("completar Edad");
                 datosCompletos = false;
             }
-            if ($("#nmbPeso").val() == "") {
-                $("#nmbPeso").addClass("sindato");
+            if ($("#txtApellido").val() == "") {
+                $("#txtApellido").addClass("sindato");
                 alert("completar Peso");
                 datosCompletos = false;
             }
             if (datosCompletos) {
-                if ($("#radio_gato").is(':checked')) {
-                    var animal = new mascota.Gato(Programa.mayusPrimera(String($("#txtNombre").val())), Number($("#nmbEdad").val()), Number($("#nmbPeso").val()));
-                }
-                if ($("#radio_perro").is(':checked')) {
-                    var animal = new mascota.Perro(Programa.mayusPrimera(String($("#txtNombre").val())), Number($("#nmbEdad").val()), Number($("#nmbPeso").val()));
-                }
-                if ($("#radio_pajaro").is(':checked')) {
-                    var animal = new mascota.Pajaro(Programa.mayusPrimera(String($("#txtNombre").val())), Number($("#nmbEdad").val()), Number($("#nmbPeso").val()), Number($("#selectPlumas").val()));
-                }
+                var cliente = new humano.Cliente(id, Programa.mayusPrimera(String($("#txtNombre").val())), Programa.mayusPrimera(String($("#txtApellido").val())), Number($("#nmbEdad").val()), Number($("#selectSexo").val()));
             }
             else {
                 return null;
             }
-            return animal;
+            return cliente;
         };
         Programa.guardarLocalStorage = function (claveLocalStorage) {
-            var arrayObjJson = JSON.stringify(Programa.animales);
+            var arrayObjJson = JSON.stringify(Programa.clientes);
             localStorage.setItem(claveLocalStorage, arrayObjJson);
         };
         //#region ABM
         Programa.guardar = function () {
-            var animal = Programa.tomarDatosForm();
-            if (animal != null) {
-                Programa.animales.push(animal);
-                Programa.guardarLocalStorage("listaJsonAnimales");
-                Programa.completarTablaLocalStorage("listaJsonAnimales");
+            var cliente = Programa.tomarDatosForm();
+            if (cliente != null) {
+                Programa.clientes.push(cliente);
+                Programa.guardarLocalStorage("listaJsonclientes");
+                Programa.completarTablaLocalStorage("listaJsonclientes");
                 Programa.vaciarForm();
                 $("#btnGuardar").attr("data-dismiss", "modal");
             }
@@ -217,78 +172,73 @@ var ejemplo;
             }
         };
         Programa.abrirModalEditado = function (index) {
-            console.log(index);
             Programa.indexGlobal = index;
             $("#modalAgregar").modal("show");
             Programa.ocultar("btnGuardar");
             Programa.mostrar("btnEliminar");
-            Programa.mostrar("btnModificar");
             Programa.completarModalAgregar(index);
         };
         Programa.eliminar = function () {
-            if (confirm("Seguro desea eliminar este animal?")) {
-                Programa.animales.splice(Programa.indexGlobal, 1);
-                Programa.guardarLocalStorage("listaJsonAnimales");
-                Programa.completarTablaLocalStorage("listaJsonAnimales");
-                //Programa.ocultar("btnEliminar");
-                //Programa.mostrar("btnGuardar");
+            if (confirm("Seguro desea eliminar este cliente?")) {
+                Programa.clientes.splice(Programa.indexGlobal, 1);
+                Programa.guardarLocalStorage("listaJsonclientes");
+                Programa.completarTablaLocalStorage("listaJsonclientes");
             }
         };
         Programa.modificar = function () {
-            Programa.animales.splice(Programa.indexGlobal, 1, Programa.tomarDatosForm());
-            Programa.guardarLocalStorage("listaJsonAnimales");
-            Programa.completarTablaLocalStorage("listaJsonAnimales");
+            Programa.clientes.splice(Programa.indexGlobal, 1, Programa.tomarDatosForm());
+            Programa.guardarLocalStorage("listaJsonclientes");
+            Programa.completarTablaLocalStorage("listaJsonclientes");
             Programa.vaciarForm();
         };
         //#endregion
         //#region Filter, map, reduce
-        Programa.filtradoEspecie = function () {
+        Programa.filtradoSexo = function () {
             var opcion = Number($("#selectFiltro").val());
             var listaFiltrada = new Array();
             switch (opcion) {
                 case 1:
-                    listaFiltrada = Programa.animales.filter(function (animal) {
-                        return animal.especie == "gato"; //--> returna un bool, lo q sea true lo guarda en la nueva lista,
+                    listaFiltrada = Programa.clientes.filter(function (cliente) {
+                        return cliente.sexo == 1; //--> returna un bool, lo q sea true lo guarda en la nueva lista,
                     });
                     break;
                 case 2:
-                    listaFiltrada = Programa.animales.filter(function (animal) {
-                        return animal.especie == "perro"; //--> returna un bool, lo q sea true lo guarda en la nueva lista,
-                    });
-                    break;
-                case 3:
-                    listaFiltrada = Programa.animales.filter(function (animal) {
-                        return animal.especie == "pajaro"; //--> returna un bool, lo q sea true lo guarda en la nueva lista,
+                    listaFiltrada = Programa.clientes.filter(function (cliente) {
+                        return cliente.sexo == 2; //--> returna un bool, lo q sea true lo guarda en la nueva lista,
                     });
                     break;
                 default:
-                    listaFiltrada = Programa.animales;
+                    listaFiltrada = Programa.clientes;
                     break;
             }
             localStorage.setItem("listaFiltrada", JSON.stringify(listaFiltrada));
             Programa.completarTablaLocalStorage("listaFiltrada");
         };
         Programa.promedioEdad = function () {
-            var promedio = Programa.animales.reduce(function (total, item) {
+            var promedio = Programa.clientes.reduce(function (total, item) {
                 return total += item.edad;
-            }, 0) / Programa.animales.length;
-            alert("Promedio de edad: " + promedio);
+            }, 0) / Programa.clientes.length;
+            $("#nmbPromedio").val(promedio);
         };
-        Programa.promedioPeso = function () {
-            var promedio = Programa.animales.reduce(function (total, item) {
-                return total += item.peso;
-            }, 0) / Programa.animales.length;
-            alert("Promedio de peso: " + promedio);
-        };
-        Programa.muestraPlumas = function (plumas) {
-            var ejemplo = Programa.animales.filter(function (item) {
-                return item.especie == "pajaro" && item.plumas == plumas;
+        /*
+                static promedioPeso(){
+                    var promedio:number = Programa.clientes.reduce(function(total, item){
+                        return total += item.peso;
+                    },0)/Programa.clientes.length;
+        
+                    alert("Promedio de peso: "+promedio);
+                }
+        */
+        Programa.muestraMayores = function (sexo) {
+            var ejemplo = Programa.clientes.filter(function (item) {
+                return item.sexo == sexo && item.edad > 18;
             }).map(function (item) {
                 return { name: item.nombre };
             });
             console.log(ejemplo);
         };
-        Programa.animales = new Array();
+        Programa.clientes = new Array();
+        Programa.ocultaColumna = {};
         return Programa;
     }());
     ejemplo_1.Programa = Programa;

@@ -1,10 +1,5 @@
-//HAY Q AGREGARLE PARAMETROS A LAS CLASES, PARA TENER MAS DATOS Q MOSTRAR
-//TMB HAY Q AGREGAR BOTONES CON FUNCIONES REDUCE, FILTER, MAP PARA MODIFICAR LA TABLA.
-
-/// <reference path= "./animal.ts"/>
-/// <reference path= "./perro.ts"/>
-/// <reference path= "./gato.ts"/>
-/// <reference path= "./pajaro.ts"/>
+/// <reference path= "./persona.ts"/>
+/// <reference path= "./cliente.ts"/>
 
 /*
 tsc --init            para iniciar en TS
@@ -19,34 +14,27 @@ npm install @types/jquery --save     usar Jquery en TS
 namespace ejemplo{
 
     $(document).ready(function(){
-        Programa.completarTablaLocalStorage("listaJsonAnimales");
-        $("#btnAgregar").click(Programa.inicioModalAgregar);
-        $("#radio_gato").click(function(){ Programa.ocultar("divPlumas")});     
-        $("#radio_perro").click(function(){ Programa.ocultar("divPlumas")});
-        $("#radio_pajaro").click(function(){ Programa.mostrar("divPlumas")});
-        $("#btnHablar").click(Programa.accion);
+        Programa.completarTablaLocalStorage("listaJsonclientes");
+        $("#btnAgregar").click(Programa.inicioModalAgregar);        
         $("#btnGuardar").click(Programa.guardar);
-        $("#selectFiltro").change(Programa.filtradoEspecie);
+        $("#selectFiltro").change(Programa.filtradoSexo);
         $("#btnEliminar").click(Programa.eliminar);
-        $("#btnModificar").click(Programa.modificar);
         $("#btnPromEdad").click(Programa.promedioEdad);
-        $("#btnPromPeso").click(Programa.promedioPeso);
-        $("#btnVerColumnas").click(Programa.verColumnas);
-        $("#btnPlumasCortas").click(function() {Programa.muestraPlumas(2)});
-        $("#btnPlumasLargas").click(function() {Programa.muestraPlumas(1)});
+        $("#btnModificar").click(Programa.modificar); 
+        $("#btnLimpiar").click(Programa.limpiar);
+        $("#btnMayores").click(function(){ Programa.muestraMayores(1)});
 
-        $("#thColEspecie").dblclick(function(){Programa.columnaOcultar("Especie")});
-        $("#thColNombre").dblclick(function(){Programa.columnaOcultar("Nombre")});
-        $("#thColEdad").dblclick(function(){Programa.columnaOcultar("Edad")});
-        $("#thColPeso").dblclick(function(){Programa.columnaOcultar("Peso")});
-        $("#thColPlumas").dblclick(function(){Programa.columnaOcultar("plumas")});
-
+        $("#chkNombre").change(function(){Programa.columnaOcultar("Nombre")});
+        $("#chkApellido").change(function(){Programa.columnaOcultar("Apellido")});
+        $("#chkEdad").change(function(){Programa.columnaOcultar("Edad")});
+        $("#chkId").change(function(){Programa.columnaOcultar("Id")});
+        $("#chkSexo").change(function(){Programa.columnaOcultar("Sexo")});
     });
 
 
     export class Programa{        
 
-        static animales = new Array<mascota.Animal>();
+        static clientes = new Array<humano.Cliente>();
         static indexGlobal:number;
 
 //#region funciones genericas
@@ -57,8 +45,14 @@ namespace ejemplo{
         }
 
         static columnaOcultar(columna:string) {
-            $("td[name=col"+Programa.mayusPrimera(columna)+"]").hide();
-            $("#thCol"+Programa.mayusPrimera(columna)).hide();
+            if($("#chk"+columna).prop("checked")){
+                $("td[name=col"+Programa.mayusPrimera(columna)+"]").show();
+                $("#thCol"+Programa.mayusPrimera(columna)).show();
+            }else{
+                $("td[name=col"+Programa.mayusPrimera(columna)+"]").hide();
+                $("#thCol"+Programa.mayusPrimera(columna)).hide();
+            }
+            
         }
 
 
@@ -75,53 +69,20 @@ namespace ejemplo{
         }
 //#endregion
 
-
-        
-        static accion(){                    
-/*
-            //solo se guardan STRING en localStorage y sessionStorage
-            localStorage.setItem("clave", "valor");//esto lo guarda en archivos temporales locales, se mantienen por mas q se cierre el navegador
-            //sessionStorage.setItem("clave", "valor"); //esto lo guardo en una pestaña del navegador
-            
-            
-            //window.location; // trae la ubicacion completa de donde estamos
-            window.location.href="./index2.html"; //cambiamos la referencia a un nuevo html
-            alert(localStorage.getItem("clave"));
-*/
-            Programa.animales.forEach(Programa.hablar);
+        static limpiar(){
+            localStorage.clear();
         }
 
-
-        static hablar(a:mascota.Animal){
-            console.log("Nombre: "+a.nombre);
-            a.hacerRuido();
-        }       
-
-
-        static JsonToAnimal(stringArrayJson:string):Array<mascota.Animal>{
-            var animales = new Array<mascota.Animal>();
+        static JsonToPersona(stringArrayJson:string):Array<humano.Cliente>{
+            var clientes = new Array<humano.Cliente>();
             var arrayJson = JSON.parse(String(stringArrayJson));
 
             arrayJson.forEach(function (value:any) {
-
-                switch (value.especie) {
-                    case "perro":
-                        var perro:mascota.Perro = new mascota.Perro(Programa.mayusPrimera(String(value.nombre)), Number(value.edad), Number(value.peso));
-                        animales.push(perro);
-                        break;
-
-                    case "gato":
-                        var gato:mascota.Gato = new mascota.Gato(Programa.mayusPrimera(String(value.nombre)), Number(value.edad), Number(value.peso));
-                        animales.push(gato);
-                        break;
-                    case "pajaro":
-                        var pajaro:mascota.Pajaro = new mascota.Pajaro(Programa.mayusPrimera(String(value.nombre)), Number(value.edad), Number(value.peso), Number(value.plumas));
-                        animales.push(pajaro);
-                        break;                
-                }
+                var cliente:humano.Cliente = new humano.Cliente(value.id, Programa.mayusPrimera(String(value.nombre)), Programa.mayusPrimera(String(value.apellido)), Number(value.edad), Number(value.sexo));
+                clientes.push(cliente);
             });
 
-            return animales;
+            return clientes;
         }
 
 
@@ -130,44 +91,38 @@ namespace ejemplo{
             Programa.mostrar("btnGuardar");
             Programa.ocultar("btnEliminar");
             Programa.ocultar("btnModificar");
-            Programa.ocultar("divPlumas");
-            //$("#modalAgregar").slideToggle();
         }
 
         
         static vaciarForm(){
             $("#txtNombre").val("");
             $("#nmbEdad").val("");
-            $("#nmbPeso").val("");
-            $("#radio_gato").prop("checked", true);
+            $("#txtApellido").val("");
+            $("#nbmId").val("");
 
             $("#txtNombre").removeClass("sindato");
             $("#nmbEdad").removeClass("sindato");
-            $("#nmbPeso").removeClass("sindato");            
+            $("#txtApellido").removeClass("sindato");            
         }
 
 
         static completarModalAgregar(index:number){
             $("#txtNombre").removeClass("sindato");
             $("#nmbEdad").removeClass("sindato");
-            $("#nmbPeso").removeClass("sindato");
+            $("#txtApellido").removeClass("sindato");
+            Programa.mostrar("btnModificar");
+            
+            $("#nmbId").val(Programa.clientes[index].id);
+            $("#txtNombre").val(Programa.clientes[index].nombre);
+            $("#nmbEdad").val(Programa.clientes[index].edad);
+            $("#txtApellido").val(Programa.clientes[index].apellido);
 
-            $("#txtNombre").val(Programa.animales[index].nombre);
-            $("#nmbEdad").val(Programa.animales[index].edad);
-            $("#nmbPeso").val(Programa.animales[index].peso);
-            switch(Programa.animales[index].especie){
-                case "perro":
-                    $("#radio_perro").prop("checked", true);
-                    Programa.ocultar("divPlumas")
+            switch(Programa.clientes[index].sexo){
+                case 1:
+                    $("#selectSexo").val(1);
                     break;
-                case "gato":
-                    $("#radio_gato").prop("checked", true);
-                    Programa.ocultar("divPlumas")
-                    break;
-                case "pajaro":
-                    $("#radio_pajaro").prop("checked", true);
-                    $("#selectPlumas").val(Programa.animales[index].plumas);
-                    Programa.mostrar("divPlumas");
+                case 2:
+                    $("#selectSexo").val(2);
                     break;
             }
         }
@@ -176,7 +131,7 @@ namespace ejemplo{
         static completarArrayLocalStorage(claveLocalStorage:string):boolean{
             var stringArrayJson = localStorage.getItem(claveLocalStorage);
             if(stringArrayJson != null){
-                Programa.animales = Programa.JsonToAnimal(String(stringArrayJson));
+                Programa.clientes = Programa.JsonToPersona(String(stringArrayJson));                
                 return true;
             }else{
                 return false;
@@ -189,22 +144,15 @@ namespace ejemplo{
 
             if(Programa.completarArrayLocalStorage(claveLocalStorage)){
                 
-                $("#tBodyAnimales").text("");
+                $("#tBodyClientes").text("");
                 
-                Programa.animales.forEach(function (value:any, index:number) {
+                Programa.clientes.forEach(function (value:any, index:number) {
                     
-                    var plumas;
-                    if(value.plumas != null){
-                        plumas = mascota.Plumaje[value.plumas];
-                    }
-                    else{
-                        plumas = "-";
-                    }
-                    $("#tBodyAnimales").append("<tr id=tr" + index.toString() + ">  <td name='colEspecie'>"+value.especie+"</td>  <td name='colNombre'>"+value.nombre+"</td>  <td name='colEdad'>"+value.edad+"</td> <td name='colPeso'>"+value.peso+"</td> <td name='colPlumas'>"+plumas+"</td>  </tr> "); // ACA AGREGAR LA TABLA PARA Q APAREZCA EN EL HTML
-                    $("#tr"+index.toString()).dblclick(function(){Programa.abrirModalEditado(index)});
-                    $("#thColEspecie").dblclick(function(){$('td[name=tcol1]').hide()});
+                    $("#tBodyClientes").append("<tr id=tr" + value.id.toString() + ">  <td name='colId'>"+value.id+"</td>  <td name='colNombre'>"+value.nombre+"</td> <td name='colApellido'>"+value.apellido+"</td>  <td name='colEdad'>"+value.edad+"</td> <td name='colSexo'>"+humano.Genero[value.sexo]+"</td> </tr> ");
+                    $("#tr"+value.id.toString()).dblclick(function(){Programa.abrirModalEditado(index)});
+                    //$("#thColEspecie").dblclick(function(){$('td[name=tcol1]').hide()});
                 });
-                Programa.completarArrayLocalStorage("listaJsonAnimales");
+                Programa.completarArrayLocalStorage("listaJsonclientes");
             }
             
         }
@@ -212,9 +160,17 @@ namespace ejemplo{
 
         
         static tomarDatosForm():any{
-            var animal: mascota.Animal;
+            var cliente: humano.Cliente;
 
             var datosCompletos:boolean = true;
+
+            var id:number = Programa.clientes.reduce(function(total, item){
+                if(total<item.id){
+                  return total=item.id;
+                }
+                else
+                  return total;
+              },0)+1;
 
             if($("#txtNombre").val() == ""){                
                 $("#txtNombre").addClass("sindato");
@@ -228,49 +184,38 @@ namespace ejemplo{
                 datosCompletos = false;
             }
 
-            if($("#nmbPeso").val() == ""){                
-                $("#nmbPeso").addClass("sindato");
+            if($("#txtApellido").val() == ""){                
+                $("#txtApellido").addClass("sindato");
                 alert("completar Peso");
                 datosCompletos = false;                
             }
 
-
-            if(datosCompletos){
-                if($("#radio_gato").is(':checked')){                
-                    var animal:mascota.Gato = new mascota.Gato(Programa.mayusPrimera(String($("#txtNombre").val())), Number($("#nmbEdad").val()), Number($("#nmbPeso").val()));                
-                }
-
-                if($("#radio_perro").is(':checked')){
-                    var animal:mascota.Perro = new mascota.Perro(Programa.mayusPrimera(String($("#txtNombre").val())), Number($("#nmbEdad").val()), Number($("#nmbPeso").val()));                
-                }
-
-                if($("#radio_pajaro").is(':checked')){
-                    var animal:mascota.Perro = new mascota.Pajaro(Programa.mayusPrimera(String($("#txtNombre").val())), Number($("#nmbEdad").val()), Number($("#nmbPeso").val()), Number($("#selectPlumas").val()));                
-                }
+            if(datosCompletos){                                
+                var cliente:humano.Cliente = new humano.Cliente(id, Programa.mayusPrimera(String($("#txtNombre").val())),Programa.mayusPrimera(String($("#txtApellido").val())), Number($("#nmbEdad").val()), Number($("#selectSexo").val()));                
             }
             else{
                 return null;
             }
 
-            return animal;
+            return cliente;
         }
 
 
 
         static guardarLocalStorage(claveLocalStorage:string){
-            var arrayObjJson = JSON.stringify(Programa.animales);
+            var arrayObjJson = JSON.stringify(Programa.clientes);
             localStorage.setItem(claveLocalStorage, arrayObjJson);
         }
 
 //#region ABM
         static guardar(){
-            var animal = Programa.tomarDatosForm();
+            var cliente = Programa.tomarDatosForm();
             
-            if(animal != null){
-                Programa.animales.push(animal);         
+            if(cliente != null){
+                Programa.clientes.push(cliente);        
 
-                Programa.guardarLocalStorage("listaJsonAnimales");
-                Programa.completarTablaLocalStorage("listaJsonAnimales");
+                Programa.guardarLocalStorage("listaJsonclientes");
+                Programa.completarTablaLocalStorage("listaJsonclientes");
 
                 Programa.vaciarForm();
                 $("#btnGuardar").attr("data-dismiss","modal");
@@ -282,59 +227,51 @@ namespace ejemplo{
 
 
         static abrirModalEditado(index:number){
-            console.log(index);
             Programa.indexGlobal = index;
             $("#modalAgregar").modal("show");
             Programa.ocultar("btnGuardar");
             Programa.mostrar("btnEliminar");
-            Programa.mostrar("btnModificar");
             Programa.completarModalAgregar(index);
         }
 
         static eliminar(){
-            if(confirm("Seguro desea eliminar este animal?")){
-                Programa.animales.splice(Programa.indexGlobal,1);
-                Programa.guardarLocalStorage("listaJsonAnimales");
-                Programa.completarTablaLocalStorage("listaJsonAnimales");
-                //Programa.ocultar("btnEliminar");
-                //Programa.mostrar("btnGuardar");
+            if(confirm("Seguro desea eliminar este cliente?")){
+                Programa.clientes.splice(Programa.indexGlobal,1);
+                Programa.guardarLocalStorage("listaJsonclientes");
+                Programa.completarTablaLocalStorage("listaJsonclientes");
             }
         }
-
+        
         static modificar(){
-            Programa.animales.splice(Programa.indexGlobal,1,Programa.tomarDatosForm());
-            Programa.guardarLocalStorage("listaJsonAnimales");
-            Programa.completarTablaLocalStorage("listaJsonAnimales");
+            Programa.clientes.splice(Programa.indexGlobal,1,Programa.tomarDatosForm());
+            Programa.guardarLocalStorage("listaJsonclientes");
+            Programa.completarTablaLocalStorage("listaJsonclientes");
             Programa.vaciarForm();
         }
+        
 //#endregion
 
 
 
 //#region Filter, map, reduce
-        static filtradoEspecie(){
+        static filtradoSexo(){
             var opcion:number = Number($("#selectFiltro").val());
-            var listaFiltrada = new Array<mascota.Animal>();
+            var listaFiltrada = new Array<humano.Cliente>();
             switch(opcion){
                 case 1:
-                    listaFiltrada = Programa.animales.filter(function(animal){
-                        return animal.especie == "gato"; //--> returna un bool, lo q sea true lo guarda en la nueva lista,
+                    listaFiltrada = Programa.clientes.filter(function(cliente){
+                        return cliente.sexo == 1; //--> returna un bool, lo q sea true lo guarda en la nueva lista,
                     });
                     break;
 
                 case 2:
-                    listaFiltrada = Programa.animales.filter(function(animal){
-                        return animal.especie == "perro"; //--> returna un bool, lo q sea true lo guarda en la nueva lista,
+                    listaFiltrada = Programa.clientes.filter(function(cliente){
+                        return cliente.sexo == 2; //--> returna un bool, lo q sea true lo guarda en la nueva lista,
                     });
                     break;
 
-                case 3:
-                    listaFiltrada = Programa.animales.filter(function(animal){
-                        return animal.especie == "pajaro"; //--> returna un bool, lo q sea true lo guarda en la nueva lista,
-                    });
-                    break;
                 default:
-                    listaFiltrada = Programa.animales;
+                    listaFiltrada = Programa.clientes;
                     break;
             }
             
@@ -346,29 +283,35 @@ namespace ejemplo{
 
 
         static promedioEdad(){
-            var promedio:number = Programa.animales.reduce(function(total, item){
+            var promedio:number = Programa.clientes.reduce(function(total, item){
                 return total += item.edad;
-            },0)/Programa.animales.length;
+            },0)/Programa.clientes.length;
 
-            alert("Promedio de edad: "+promedio);
+            $("#nmbPromedio").val(promedio);
         }
 
+
+        static ocultaColumna{
+
+        }
+/*
         static promedioPeso(){
-            var promedio:number = Programa.animales.reduce(function(total, item){
+            var promedio:number = Programa.clientes.reduce(function(total, item){
                 return total += item.peso;
-            },0)/Programa.animales.length;
+            },0)/Programa.clientes.length;
 
             alert("Promedio de peso: "+promedio);
         }
-
-        static muestraPlumas(plumas:number){
-            var ejemplo = Programa.animales.filter(function(item){
-                return item.especie == "pajaro" && item.plumas==plumas;
+*/
+        static muestraMayores(sexo:number){
+            var ejemplo = Programa.clientes.filter(function(item){
+                return item.sexo == sexo && item.edad>18;
             }).map(function(item){
                 return {name: item.nombre};
             });
             console.log(ejemplo);
         }
+
 //#endregion
 
     }

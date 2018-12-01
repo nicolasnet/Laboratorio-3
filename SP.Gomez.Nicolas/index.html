@@ -11,49 +11,49 @@
     <link rel="stylesheet" href="./css/style.css">
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
     <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="./clases/animal.js"></script> <!-- no hace falta agregar archivos de interface ya q estan vacios xq no existen en JS -->
-    <script src="./clases/perro.js"></script>
-    <script src="./clases/gato.js"></script>
-    <script src="./clases/pajaro.js"></script>
+    <script src="./clases/persona.js"></script> 
+    <script src="./clases/cliente.js"></script>
     <script src="./clases/ejemplo.js"></script>
     
 </head>
 <body>
  
     <svg width="280" height="60" viewBox="0 0 260 60">
-        <text x="10" y="40">Lista de Animales: </text>
+        <text x="10" y="40">Lista de clientes: </text>
     </svg>
 
     <br>    
 
     <div class="row justify-content-between">
-        <div class="col-1">
+        <div class="col-2">
             <button id="btnAgregar" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAgregar">
                     Agregar
             </button>
         </div>
-        <div class="col-1">
-            <input type="button" value="Ver todas Columnas" id="btnVerColumnas" class="btn btn-light">
+
+        <div class="col-3">
+            <button id="btnLimpiar" type="button" class="btn btn-warning">
+                    Limpiar Local Storage
+            </button>
         </div>
         
-        <div class="col-4">
-            <input type="button" value="Promedio Edad" id="btnPromEdad" class="btn btn-secondary">
-            <input type="button" value="Promedio Peso" id="btnPromPeso" class="btn btn-secondary">
-            <input type="button" value="Plumas Cortas" id="btnPlumasCortas" class="btn btn-secondary"> 
-            <input type="button" value="Plumas Largas" id="btnPlumasLargas" class="btn btn-secondary">
+        <div class="col-5">            
+            <label class="labelBlanco col-auto">Promedio edad:</label>
+            <input type="number" class="col-2" id="nmbPromedio" disabled>            
+            <input type="button" value="Promedio" id="btnPromEdad" class="btn btn-secondary col-auto">            
         </div>
         
     </div>
-
+    <br>
     <div class="form-group row">
-        <label for="controlSelect" class="labelBlanco col-2">Filtrado por especie:</label>
-        <select name="controlSelect" id="selectFiltro" class="form-control col-1">
+        <label for="controlSelect" class="labelBlanco col-2">Filtrado por sexo:</label>
+        <select name="controlSelect" id="selectFiltro" class="form-control col-2">
             <option value="" selected disabled hidden>-</option>
-            <option value="1">Gato</option>
-            <option value="2">Perro</option>
-            <option value="3">Pajaro</option>
-            <option value="4">Todos</option>
+            <option value="1">Hombre</option>
+            <option value="2">Mujer</option>
+            <option value="3">Todos</option>
         </select>
+        <input type="button" value="HombresMayoresEdad" id="btnMayores" class="btn btn-secondary">
       </div>
       
       <!-- Modal -->
@@ -61,7 +61,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalAgregarLabel">Agregar animal</h5>
+                    <h5 class="modal-title" id="modalAgregarLabel">Agregar cliente</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -70,8 +70,20 @@
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Nombre del animal:</label>
+                            <label for="recipient-name" class="col-form-label">Id:</label>
+                            <input type="number" class="form-control" id="nmbId" disabled>
+                            <small class="form-text text-muted">No se puede modificar</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Nombre:</label>
                             <input type="text" class="form-control" id="txtNombre" required>
+                            <small class="form-text text-muted">No ingrese espacios en blanco</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Apellido:</label>
+                            <input type="text" class="form-control" id="txtApellido" required>
                             <small class="form-text text-muted">No ingrese espacios en blanco</small>
                         </div>
 
@@ -81,27 +93,11 @@
                             <small class="form-text text-muted">Ingresar años de edad</small>
                         </div>
 
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Peso:</label>
-                            <input type="number" class="form-control" id="nmbPeso">
-                            <small class="form-text text-muted">Ingresar peso en Kilogramos</small>
-                        </div>
-
-                        <div class="form-check-inline">                            
-                            <input type="radio" name="animal" id="radio_gato" class="form-check-input" checked > <label for="radio_gato" class="form-check-label"> Gato </label>
-                        </div>
-                        <div class="form-check-inline">
-                            <input type="radio" name="animal" id="radio_perro" class="form-check-input"> <label for="radio_perro" class="form-check-label"> Perro </label>
-                        </div>
-                        <div class="form-check-inline">
-                            <input type="radio" name="animal" id="radio_pajaro" class="form-check-input"> <label for="radio_pajaro" class="form-check-label"> Pajaro </label>
-                        </div>
-
-                        <div class="form-group" id="divPlumas">
-                            <label for="controlSelect">Plumaje</label>
-                            <select name="controlSelect" id="selectPlumas" class="form-control">
-                              <option value="1">Largas</option>
-                              <option value="2">Cortas</option>
+                        <div class="form-group" id="divSexo">
+                            <label for="controlSelect">Sexo</label>
+                            <select name="controlSelect" id="selectSexo" class="form-control">
+                              <option value="1">Hombre</option>
+                              <option value="2">Mujer</option>
                             </select>
                         </div>
                     </form>
@@ -110,30 +106,56 @@
                 <div class="modal-footer">
                     <!-- <input type="reset" value="Reset"  class="btn btn-warning"> -->
                     <input id="btnEliminar" type="button" value="Eliminar" class="btn btn-danger" data-dismiss="modal">
-                    <button id="btnHablar" class="btn btn-secondary">Hablar</button>
+                    <input type="button" id="btnGuardar" value="Guardar"  class="btn btn-primary" data-dismiss="modal">
                     <input id="btnModificar" type="button" value="Modificar" class="btn btn-warning" data-dismiss="modal">
-                    <input type="submit" id="btnGuardar" value="Guardar"  class="btn btn-primary" data-dismiss="modal">
                         
                 </div>
             </div>
         </div>
     </div>
 
-    <br>
-    <br>
+    <div class="container">
+        <div id="row">
+            <h3 class="labelBlanco col-6">Campos Mostrados</h3> <p class="labelBlanco col-6">Tildar campos a mostrar</p>
+        </div>
+
+        <div id="selectorTablas row">            
+            <div class="form-check-inline">
+                <input type="checkbox" name="chkid" id="chkId" class="form-check-input" checked>
+                <label for="chkId" class="form-check-label labelBlanco">Id</label>
+            </div>
+            <div class="form-check-inline">
+                <input type="checkbox" name="chknombre" id="chkNombre" class="form-check-input" checked>
+                <label for="chkNombre" class="form-check-label labelBlanco">Nombre</label>
+            </div>
+            <div class="form-check-inline">
+                <input type="checkbox" name="chkapellido" id="chkApellido" class="form-check-input" checked>
+                <label for="chkApellido" class="form-check-label labelBlanco">Apellido</label>
+            </div>
+            <div class="form-check-inline">
+                <input type="checkbox" name="chkedad" id="chkEdad" class="form-check-input" checked>
+                <label for="chkEdad" class="form-check-label labelBlanco">Edad</label>
+            </div>
+            <div class="form-check-inline">
+                <input type="checkbox" name="chksexo" id="chkSexo" class="form-check-input" checked>
+                <label for="chkSexo" class="form-check-label labelBlanco">Sexo</label>
+            </div>
+        </div>
+    </div>
     
     <div id="divTabla" class="container">
+        
         <table class="table table-striped">
             <thead>
               <tr class="titulos">
-                <th id="thColEspecie"><input type="button" value="Especie" class="btn btn-link"> </th>
-                <th id="thColNombre"><input type="button" value="Nombre" class="btn btn-link"> </th>
-                <th id="thColEdad"><input type="button" value="Edad" class="btn btn-link"> </th>
-                <th id="thColPeso"><input type="button" value="Peso" class="btn btn-link"> </th>
-                <th id="thColPlumas"><input type="button" value="Plumas" class="btn btn-link"> </th>
+                <th id="thColId">Id </th>
+                <th id="thColNombre">Nombre</th>
+                <th id="thColApellido">Apellido</th>
+                <th id="thColEdad">Edad</th>
+                <th id="thColSexo">Sexo </th>
               </tr>
             </thead>
-            <tbody id="tBodyAnimales">
+            <tbody id="tBodyClientes">
               
 
             </tbody>
